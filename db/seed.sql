@@ -9,3 +9,6 @@ VALUES
 ('02', '対応中'),
 ('03', '完了');
 
+--m_userのサンプル用レコード @by林
+INSERT INTO m_user (user_id,password,user_name)
+VALUES('admin','admin','アドミン太郎');
