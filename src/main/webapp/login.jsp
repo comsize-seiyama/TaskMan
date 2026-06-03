@@ -11,7 +11,7 @@
 <hr>
 
 
-<form action="loginServlet" method="POST">
+<form action="login-servlet" method="POST">
 ユーザID<br>
 <input type="text" name="userId"><br>
 パスワード<br>
