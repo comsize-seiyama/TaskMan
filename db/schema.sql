@@ -5,7 +5,7 @@ CREATE TABLE `m_user` (
   `update_datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_name` (`user_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `m_category` (
   `category_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -40,4 +40,4 @@ CREATE TABLE `t_task` (
   CONSTRAINT `fk_task_category` FOREIGN KEY (`category_id`) REFERENCES `m_category` (`category_id`),
   CONSTRAINT `fk_task_status` FOREIGN KEY (`status_code`) REFERENCES `m_status` (`status_code`),
   CONSTRAINT `fk_task_user` FOREIGN KEY (`user_id`) REFERENCES `m_user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
