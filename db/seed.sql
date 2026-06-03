@@ -2,6 +2,10 @@
 INSERT INTO m_user (user_id,password,user_name)
 VALUES ('1','1234','test');
 
+--m_userのサンプル用レコード @by林
+INSERT INTO m_user (user_id,password,user_name)
+VALUES('admin','admin','アドミン太郎');
+
 INSERT INTO m_category (category_name)
 VALUES ('新商品A:開発プロジェクト'),('既存商品B:改良プロジェクト');
 
