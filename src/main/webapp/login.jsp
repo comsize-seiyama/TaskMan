@@ -18,6 +18,14 @@
 <input type="password" name="password"><br><br>
 <input type="submit" value="ログイン">
 </form>
+<%
+String errorMessage = (String) request.getAttribute("errorMessage");
+if (errorMessage != null) {
+%>
+    <p style="color:red;"><%= errorMessage %></p>
+<%
+}
+%>
 
 </body>
 </html>
