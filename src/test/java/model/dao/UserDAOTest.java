@@ -89,17 +89,5 @@ public class UserDAOTest {
 		     
 	 }
 		 
-		//テスト項目８
-		 public void loginFailure_()throws Exception{
-	 	
-			 UserBean input = new UserBean();
-		     input.setUserId();
-		     input.setPassword();
-		     
-		     UserDAO dao = new UserDAO();
-		     UserBean actual = dao.login(input);
-		
-		     assertEquals(null,actual);
-		     
-	 }		 
+
 }
