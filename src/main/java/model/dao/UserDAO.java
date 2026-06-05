@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.entity.UserBean;
 
@@ -34,5 +37,36 @@ public class UserDAO {
 		}
 		return returnBean;
 	}
-
+	/**
+	 * タスク登録画面での担当者欄のプルダウン用に<br>
+	 * ユーザー情報テーブルからユーザーIDとユーザー名の一覧を取得します。
+	 *
+	 * @return ユーザー情報のリスト
+	 * @throws ClassNotFoundException JDBCドライバの読み込みに失敗した場合
+	 * @throws SQLException データベースアクセス時にエラーが発生した場合
+	 * @author 林
+	 */
+	public List<UserBean> getUserList() throws ClassNotFoundException, SQLException {
+		
+		List<UserBean> userBeanList = new ArrayList <> ();
+		
+		String sql = "SELECT user_id,user_name FROM m_user" ;
+		
+		try (Connection con = ConnectionManager.getConnection(); 
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+						) {
+			
+			while(rs.next()) {
+				
+				UserBean userBean = new UserBean();
+				
+				userBean.setUserId(rs.getString("user_id"));
+				userBean.setUserName(rs.getString("user_name"));
+				
+				userBeanList.add(userBean);
+			}
+		}
+		return	userBeanList;	
+	}
 }
