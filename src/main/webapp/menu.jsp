@@ -22,12 +22,12 @@ if (userName == null) {
 	<%=userName%>さん
 	<br>
 
-	<form action="task-register-form.jsp" method="POST">
+	<form action="task-add-servlet" method="POST">
 		<input type="submit" value="タスク登録">
 	</form>
 	<br>
 
-	<form action="task-list.jsp" method="POST">
+	<form action="task-list-servlet" method="POST">
 		<input type="submit" value="タスク一覧表示">
 	</form>
 	<br>
