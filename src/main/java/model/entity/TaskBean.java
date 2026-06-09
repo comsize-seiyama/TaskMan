@@ -2,6 +2,7 @@ package model.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class TaskBean implements Serializable {
 	
@@ -13,6 +14,9 @@ public class TaskBean implements Serializable {
 	private String userName;//ユーザ名
 	private String statusName;//ステータス名
 	private String memo;//メモ
+	private Timestamp	create_datetime	;//登録日時
+	private Timestamp updateDatetime;//更新日時
+	
 
 	//コンストラクタ
 	public TaskBean() {
@@ -75,4 +79,21 @@ public class TaskBean implements Serializable {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
+	public Timestamp getCreate_datetime() {
+		return create_datetime;
+	}
+
+	public void setCreate_datetime(Timestamp create_datetime) {
+		this.create_datetime = create_datetime;
+	}
+
+	public Timestamp getUpdateDatetime() {
+		return updateDatetime;
+	}
+
+	public void setUpdateDatetime(Timestamp updateDatetime) {
+		this.updateDatetime = updateDatetime;
+	}
+
+	
 }
