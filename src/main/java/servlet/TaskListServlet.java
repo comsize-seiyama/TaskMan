@@ -40,8 +40,8 @@ public class TaskListServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF8");
-		List<TaskBean> taskBeantaskBeanList = new ArrayList<TaskBean>();
+		request.setCharacterEncoding("UTF-8");
+		List<TaskBean> taskBeanList = new ArrayList<TaskBean>();
 		try {
 			 TaskDAO taskDao = new TaskDAO();
 			taskBeanList = taskDao.selectAll();
