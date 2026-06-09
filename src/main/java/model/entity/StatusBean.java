@@ -9,6 +9,10 @@ public class StatusBean implements Serializable{
 	    private String statusCode;
 	    private String statusName;
 	    private Timestamp updateDatetime;
+	    
+	    public StatusBean() {
+	    	
+	    }
 
 	    public String getStatusCode() {
 	        return statusCode;

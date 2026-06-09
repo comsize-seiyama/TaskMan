@@ -13,7 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.dao.CategoryDAO;
+import model.dao.StatusDAO;
 import model.dao.TaskDAO;
+import model.entity.CategoryBean;
+import model.entity.StatusBean;
 import model.entity.TaskBean;
 
 /**
@@ -35,8 +39,8 @@ public class TaskListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		    doPost(request, response);
 	}
 
 	/**
@@ -44,22 +48,38 @@ public class TaskListServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		List<TaskBean> taskBeanList = new ArrayList<TaskBean>();
-		try {
-			 TaskDAO taskDao = new TaskDAO();
-			taskBeanList = taskDao.selectAll();
-		} catch (SQLException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		HttpSession session = request.getSession();
-		session.setAttribute("taskBeanList", taskBeanList);
-		RequestDispatcher rd = request.getRequestDispatcher("task-list.jsp");
-		rd.forward(request, response);
-	}
+		
 
-		
-		
-		
-	}
+		    //タスク一覧格納用
+	        List<TaskBean> taskBeanList = new ArrayList<>();
+	        //カテゴリー一覧格納用
+	        List<CategoryBean> categoryBeanList = new ArrayList<>();
+	        //ステータス格納用
+	        List<StatusBean>statusBeanList = new ArrayList<>();
 
+	        try {
+	        	//タスク一覧取得
+	            TaskDAO taskDao = new TaskDAO();
+	            taskBeanList = taskDao.selectAll();
+                //カテゴリー一覧取得
+	            CategoryDAO categoryDao = new CategoryDAO();
+	            categoryBeanList = categoryDao.selectAll();
+	            //ステータス一覧取得
+	            StatusDAO statusDao = new StatusDAO();
+	            statusBeanList = statusDao.selectAll();
+
+	        } catch (SQLException | ClassNotFoundException e) {
+	            e.printStackTrace();
+	        }
+
+	        HttpSession session = request.getSession();
+	        //セッションスコープへ格納
+	        session.setAttribute("taskBeanList", taskBeanList);
+	        session.setAttribute("categoryBeanList", categoryBeanList);
+	        session.setAttribute("statusBeanList", statusBeanList);
+            //一覧画面へ遷移
+	        RequestDispatcher rd = request.getRequestDispatcher("task-list.jsp");
+	        rd.forward(request, response);
+	}
+}
 
