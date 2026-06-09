@@ -32,15 +32,15 @@ public class TaskDAO {
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery(sql)){
 			while (rs.next()) {
-				TaskBean taskbean = new TaskBean();
-				taskbean.setTaskId(rs.getInt("task_id"));
-				taskbean.setTaskName(rs.getString("task_name"));
-				taskbean.setCategoryName(rs.getString("category_name"));
-				taskbean.setLimitDate(rs.getDate("limit_date"));
-				taskbean.setUserName(rs.getString("user_name"));
-				taskbean.setStatusName(rs.getString("status_name"));
-				taskbean.setMemo(rs.getString("memo"));
-				taskBeanList.add(taskbean);
+				TaskBean taskBean = new TaskBean();
+				taskBean.setTaskId(rs.getInt("task_id"));
+				taskBean.setTaskName(rs.getString("task_name"));
+				taskBean.setCategoryName(rs.getString("category_name"));
+				taskBean.setLimitDate(rs.getDate("limit_date"));
+				taskBean.setUserName(rs.getString("user_name"));
+				taskBean.setStatusName(rs.getString("status_name"));
+				taskBean.setMemo(rs.getString("memo"));
+				taskBeanList.add(taskBean);
 			}
 		}
 		return taskBeanList;

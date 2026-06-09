@@ -15,7 +15,7 @@ public class StatusDAO {
 
     public List<StatusBean> selectAll() throws ClassNotFoundException, SQLException {
 
-        List<StatusBean> statusList = new ArrayList<>();
+        List<StatusBean> statusBeanList = new ArrayList<>();
 
         String sql =
                 "SELECT status_code, status_name " +
@@ -30,16 +30,18 @@ public class StatusDAO {
 
             while (rs.next()) {
 
-                StatusBean statusbean = new StatusBean();
+                StatusBean statusBean = new StatusBean();
 
-                statusbean.setStatusCode(rs.getString("status_code"));
-                statusbean.setStatusName(rs.getString("status_name"));
+                statusBean.setStatusCode(rs.getString("status_code"));
+                statusBean.setStatusName(rs.getString("status_name"));
                 
 
-                statusList.add(statusbean);
+                statusBeanList.add(statusBean);
+               
             }
+           
         }
 
-        return statusList;
+        return statusBeanList;
     }
 }

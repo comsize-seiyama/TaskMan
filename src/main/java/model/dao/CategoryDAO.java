@@ -11,9 +11,9 @@ import model.entity.CategoryBean;
 
 public class CategoryDAO {
 
-	List<CategoryBean> selectAll() throws ClassNotFoundException, SQLException{
+	public List<CategoryBean> selectAll() throws ClassNotFoundException, SQLException{
 		
-		List<CategoryBean> categoryList = new ArrayList<>();
+		List<CategoryBean> categoryBeanList = new ArrayList<>();
 		
 		String sql = "SELECT  category_id,category_name	FROM m_category "
 				+ "ORDER BY category_id";
@@ -23,14 +23,14 @@ public class CategoryDAO {
 				ResultSet rs = pstmt.executeQuery()){
 			
 			while(rs.next()) {
-				CategoryBean categorybean = new CategoryBean();
+				CategoryBean categoryBean = new CategoryBean();
 				
-				 categorybean.setCategoryId(rs.getInt("category_id"));
-				 categorybean.setCategoryName(rs.getString("category_name"));
+				categoryBean.setCategoryId(rs.getInt("category_id"));
+				categoryBean.setCategoryName(rs.getString("category_name"));
 				 
-				 categoryList.add(categorybean);
+				categoryBeanList.add(categoryBean);
 			}
-			return categoryList;
+			return categoryBeanList;
 			
 		}
 				
