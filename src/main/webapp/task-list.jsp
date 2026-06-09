@@ -1,3 +1,8 @@
+
+<%@page import="java.util.List"%>
+<%@page import="model.entity.TaskBean"%>
+<%@page import="model.entity.TaskBean"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -10,7 +15,7 @@
 	<h1>タスク一覧表示</h1>
 	<form action="task-edit-Servlet" method="post">
 	<input type="submit" name="action" value="編集" style="display: inline;">
-	<input type="submit"  name="action" value="編集" style="display: inline;">
+	<input type="submit"  name="action" value="削除" style="display: inline;">
 
 	<table border="1">
 		<tr>
