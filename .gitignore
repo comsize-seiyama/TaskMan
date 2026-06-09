@@ -1,1 +1,3 @@
 /build/
+document/db/schema.sql
+document/db/seed.sql
