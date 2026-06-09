@@ -10,7 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.dao.CategoryDAO;
+import model.dao.StatusDAO;
 import model.dao.UserDAO;
+import model.entity.CategoryBean;
+import model.entity.StatusBean;
 import model.entity.UserBean;
 
 /**
@@ -47,6 +51,8 @@ public class TaskAddServlet extends HttpServlet {
 		List<CategoryDAO>categoryList = new ArrayList<CategoryBean>();
 		categoryList = category.getCategoryList();
 		
+		List<StatusDAO>statusList = new ArrayList<StatusBean>();
+		statusList = status.getStatusList();
 	}
 
 	
