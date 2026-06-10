@@ -1,5 +1,13 @@
+<%@page import="model.entity.StatusBean"%>
+<%@page import="model.entity.UserBean"%>
+<%@page import="model.entity.CategoryBean"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<% List<CategoryBean> categoryList = (List<CategoryBean>)request.getAttribute("categoryList"); %>
+<% List<UserBean> userList = (List<UserBean>)request.getAttribute("userList"); %>
+<% List<StatusBean> statusList = (List<StatusBean>)request.getAttribute("statusList"); %>
 
 <!DOCTYPE html>
 <html>
@@ -12,7 +20,7 @@
   <h1>タスク登録画面</h1>
   <hr>
 
-  <form action="task-add-servlet" method="get">
+  <form action="task-add-servlet" method="POST">
     <table>
       <tr>
         <th>タスク名</th>
@@ -22,11 +30,20 @@
       </tr>
       <tr>
         <th>カテゴリ名</th>
-        <td></td>
+        
+        <td>
+        	<select name ="categoryId">
+        		<%
+        		for(CategoryBean c: categoryList){
+        		%>
+        		<option value =<%=c.getCategoryId() %>><%=c.getCategoryName() %></option>
+        		<% }%>
+        	</select>>
+        	</td>
       </tr>
       <tr>
         <th>期限</th>
-        <td></td>
+        <td><input type="date"></td>
       </tr>
       <tr>
         <th>担当者</th>
