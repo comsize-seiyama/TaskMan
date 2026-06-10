@@ -1,3 +1,4 @@
+<%@page import="java.time.LocalDate"%>
 <%@page import="model.entity.StatusBean"%>
 <%@page import="model.entity.UserBean"%>
 <%@page import="model.entity.CategoryBean"%>
@@ -25,7 +26,7 @@
       <tr>
         <th>タスク名</th>
         <td>
-          <input type="text" name="taskName">
+          <input type="text" name="taskName"required>
         </td>
       </tr>
       <tr>
@@ -38,25 +39,40 @@
         		%>
         		<option value =<%=c.getCategoryId() %>><%=c.getCategoryName() %></option>
         		<% }%>
-        	</select>>
+        	</select>
         	</td>
       </tr>
       <tr>
         <th>期限</th>
-        <td><input type="date"></td>
+        <td><input type="date" name="date" min="<%= LocalDate.now()%>" required></td>
       </tr>
       <tr>
         <th>担当者</th>
-        <td></td>
+        <td><select name ="userId">
+        		<%
+        		for(UserBean u: userList){
+        		%>
+        		<option value =<%=u.getUserId()%>><%=u.getUserName()%></option>
+        		<% }%>
+        	</select>
+        	</td>
       </tr>
       <tr>
         <th>ステータス</th>
-        <td></td>
+        <td>
+        <select name ="statusCode">
+        		<%
+        		for(StatusBean b: statusList){
+        		%>
+        		<option value =<%=b.getStatusCode()%>><%=b.getStatusName()%></option>
+        		<% }%>
+        	</select>
+        </td>
       </tr>
       <tr>
         <th>メモ</th>
         <td>
-          <input type="text" name="memo">
+          <input type="text" name="memo"required>
         </td>
       </tr>
     </table>

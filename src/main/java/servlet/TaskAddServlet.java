@@ -73,7 +73,7 @@ public class TaskAddServlet extends HttpServlet {
 		//各テーブルからリストを取得できたので、リクエストスコープに入れて画面に渡す。
 		request.setAttribute("userList",userList);
 		request.setAttribute("categoryList",categoryList);
-		request.setAttribute("status",status);
+		request.setAttribute("statusList",statusList);
 		
 		//画面にフォワードする
 		request.getRequestDispatcher("task-add.jsp").forward(request, response);
