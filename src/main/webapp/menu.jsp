@@ -22,7 +22,7 @@ if (userName == null) {
 	<%=userName%>さん
 	<br>
 
-	<form action="task-add-servlet" method="POST">
+	<form action="task-add-servlet" method="GET">
 		<input type="submit" value="タスク登録">
 	</form>
 	<br>

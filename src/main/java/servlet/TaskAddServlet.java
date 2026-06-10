@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,13 +47,37 @@ public class TaskAddServlet extends HttpServlet {
 		StatusDAO status = new StatusDAO();
 		
 		List<UserBean> userList = new ArrayList<UserBean>();
-		userList = user.getUserList();
+		try {
+			userList = user.getUserList();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 		
-		List<CategoryDAO>categoryList = new ArrayList<CategoryBean>();
-		categoryList = category.getCategoryList();
+		List<CategoryBean>categoryList = new ArrayList<CategoryBean>();
+		try {
+			categoryList = category.selectAll();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 		
-		List<StatusDAO>statusList = new ArrayList<StatusBean>();
-		statusList = status.getStatusList();
+		List<StatusBean>statusList = new ArrayList<StatusBean>();
+		try {
+			statusList = status.selectAll();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		
+		//各テーブルからリストを取得できたので、リクエストスコープに入れて画面に渡す。
+		request.setAttribute("userList",userList);
+		request.setAttribute("categoryList",categoryList);
+		request.setAttribute("statusList",statusList);
+		
+		//画面にフォワードする
+		request.getRequestDispatcher("task-add.jsp").forward(request, response);
+		
 	}
 
 	
