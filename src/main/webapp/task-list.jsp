@@ -15,8 +15,14 @@
 
 <form method="post">
 
-    <input type="submit" value="編集" formaction="task-edit-servlet">
-    <input type="submit" value="削除" formaction="task-delete-servlet">
+    <input type="submit" value="編集" formaction="task-edit-servlet"
+       style="display:inline;">
+
+<input type="submit" value="削除" formaction="task-delete-servlet"
+       style="display:inline;">
+
+<input type="submit" value="メニューへ" formaction="menu.jsp"
+       style="display:inline;">
 
     <table border="1">
         <tr>
