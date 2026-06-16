@@ -13,18 +13,29 @@
 
 <h1>タスク一覧表示</h1>
 
+<%
+String loginUserName = (String)session.getAttribute("userName");
+%>
+
 <form method="post">
 
-    <input type="submit" value="編集" formaction="task-edit-servlet"
-       style="display:inline;">
+    <input type="submit"
+           value="編集"
+           formaction="task-edit-servlet"
+           style="display:inline;">
 
-<input type="submit" value="削除" formaction="task-delete-servlet"
-       style="display:inline;">
+    <input type="submit"
+           value="削除"
+           formaction="task-delete-servlet"
+           style="display:inline;">
 
-<input type="submit" value="メニューへ" formaction="menu.jsp"
-       style="display:inline;">
+    <input type="submit"
+           value="メニューへ"
+           formaction="menu.jsp"
+           style="display:inline;">
 
     <table border="1">
+
         <tr>
             <th>選択</th>
             <th>タスク名</th>
@@ -37,23 +48,83 @@
 
         <%
         List<TaskBean> taskBeanList =
-            (List<TaskBean>) session.getAttribute("taskBeanList");
+            (List<TaskBean>)session.getAttribute("taskBeanList");
 
-        for (TaskBean taskbeanlist : taskBeanList) {
+        for(TaskBean taskbeanlist : taskBeanList){
         %>
 
         <tr>
+
             <td>
-                <input type="radio"
-                       name="taskId"
-                       value="<%= taskbeanlist.getTaskId() %>">
+
+                <%
+                if(loginUserName.equals(taskbeanlist.getUserName())){
+                %>
+
+                    <input type="radio"
+                           name="taskId"
+                           value="<%=taskbeanlist.getTaskId()%>">
+
+                <%
+                }else{
+                %>
+
+                    -
+
+                <%
+                }
+                %>
+
             </td>
-            <td><%= taskbeanlist.getTaskName() %></td>
-            <td><%= taskbeanlist.getCategoryName() %></td>
-            <td><%= taskbeanlist.getLimitDate() %></td>
-            <td><%= taskbeanlist.getUserName() %></td>
-            <td><%= taskbeanlist.getStatusName() %></td>
-            <td><%= taskbeanlist.getMemo() %></td>
+
+            <td><%=taskbeanlist.getTaskName()%></td>
+
+            <td><%=taskbeanlist.getCategoryName()%></td>
+
+            <td>
+
+                <%
+                if(taskbeanlist.getLimitDate() == null){
+                %>
+
+                    <%= "" %>
+
+                <%
+                }else{
+                %>
+
+                    <%=taskbeanlist.getLimitDate()%>
+
+                <%
+                }
+                %>
+
+            </td>
+
+            <td><%=taskbeanlist.getUserName()%></td>
+
+            <td><%=taskbeanlist.getStatusName()%></td>
+
+            <td>
+
+                <%
+                if(taskbeanlist.getMemo() == null){
+                %>
+
+                    <%= "" %>
+
+                <%
+                }else{
+                %>
+
+                    <%=taskbeanlist.getMemo()%>
+
+                <%
+                }
+                %>
+
+            </td>
+
         </tr>
 
         <%
