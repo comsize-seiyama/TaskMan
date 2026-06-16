@@ -14,8 +14,10 @@
 <h1>タスク一覧表示</h1>
 
 <%
-String loginUserName = (String)session.getAttribute("userName");
+
+String loginUserId =(String)session.getAttribute("userId");
 %>
+
 
 <form method="post">
 
@@ -58,8 +60,11 @@ String loginUserName = (String)session.getAttribute("userName");
             <td>
 
                 <%
-                if(loginUserName.equals(taskbeanlist.getUserName())){
+                
+                if(loginUserId.equals(taskbeanlist.getUserId())){
                 %>
+
+                  
 
                     <input type="radio"
                            name="taskId"
