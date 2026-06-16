@@ -27,6 +27,15 @@ public class LoginServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+   
+    /**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 *  予期しないアクセスに対して戻す
+	 */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.sendRedirect("login.jsp");
+    }
 
 	/**
 
@@ -60,6 +69,7 @@ public class LoginServlet extends HttpServlet {
             // ログイン成功時
             HttpSession session = request.getSession();
             session.setAttribute("userName", loginUser.getUserName());
+            session.setAttribute("userId", loginUser.getUserId());
 
             request.getRequestDispatcher("menu.jsp").forward(request, response);
 

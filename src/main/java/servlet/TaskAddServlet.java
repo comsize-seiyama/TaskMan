@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.dao.CategoryDAO;
 import model.dao.StatusDAO;
@@ -37,10 +38,16 @@ public class TaskAddServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//ログインチェック
+		HttpSession session = request.getSession();
+		if (session.getAttribute("userId") == null) {
+		response.sendRedirect("login.jsp");
+		return;
+		}
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		//各DAOからリストを取得してrequestスコープに入れてフォワード
+		//各DAOからリストを取得してsessionスコープに入れてフォワード
 		
 		UserDAO user = new UserDAO();
 		CategoryDAO category = new CategoryDAO();
@@ -71,9 +78,9 @@ public class TaskAddServlet extends HttpServlet {
 		}
 		
 		//各テーブルからリストを取得できたので、リクエストスコープに入れて画面に渡す。
-		request.setAttribute("userList",userList);
-		request.setAttribute("categoryList",categoryList);
-		request.setAttribute("statusList",statusList);
+		session.setAttribute("userList",userList);
+		session.setAttribute("categoryList",categoryList);
+		session.setAttribute("statusList",statusList);
 		
 		//画面にフォワードする
 		request.getRequestDispatcher("task-add.jsp").forward(request, response);
@@ -86,8 +93,29 @@ public class TaskAddServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		//ログインチェック
+		HttpSession session = request.getSession();
+		if (session.getAttribute("userId") == null) {
+		response.sendRedirect("login.jsp");
+		return;
+		}
 		request.setCharacterEncoding("UTF-8");
+		
+		//バリデーションチェック（タスク名）
+		String taskName =(String)request.getParameter("taskName");
+		if(taskName == null || taskName.isBlank()){
+			request.setAttribute("errorMessage", "タスク名を入力してください");
+			request.getRequestDispatcher("task-add.jsp").forward(request, response);
+			return;
+		}
+		
+		//バリデーションチェック（
+		
+	
+		
+		
 	}
+	
+	
 
 }

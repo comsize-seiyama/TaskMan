@@ -6,9 +6,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<% List<CategoryBean> categoryList = (List<CategoryBean>)request.getAttribute("categoryList"); %>
-<% List<UserBean> userList = (List<UserBean>)request.getAttribute("userList"); %>
-<% List<StatusBean> statusList = (List<StatusBean>)request.getAttribute("statusList"); %>
+<% List<CategoryBean> categoryList = (List<CategoryBean>)session.getAttribute("categoryList"); %>
+<% List<UserBean> userList = (List<UserBean>)session.getAttribute("userList"); %>
+<% List<StatusBean> statusList = (List<StatusBean>)session.getAttribute("statusList"); %>
 
 <!DOCTYPE html>
 <html>
