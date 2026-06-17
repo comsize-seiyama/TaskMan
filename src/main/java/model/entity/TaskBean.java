@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public class TaskBean implements Serializable {
-	
+
 	//フィールド
 	private int taskId;//タスクID
 	private String taskName;//タスク名
@@ -14,15 +14,19 @@ public class TaskBean implements Serializable {
 	private String userName;//ユーザ名
 	private String statusName;//ステータス名
 	private String memo;//メモ
-	private Timestamp	create_datetime	;//登録日時
+	private Timestamp createDatetime;//登録日時
 	private Timestamp updateDatetime;//更新日時
-	
+
+	private int categoryId;
+
+	private String userId;
+	private String statusCode;
 
 	//コンストラクタ
 	public TaskBean() {
 		// TODO 自動生成されたコンストラクター・スタブ
 	}
-	
+
 	//アクセサメソッド
 	public int getTaskId() {
 		return taskId;
@@ -79,12 +83,39 @@ public class TaskBean implements Serializable {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
-	public Timestamp getCreate_datetime() {
-		return create_datetime;
+
+	
+
+	public Timestamp getCreateDatetime() {
+		return createDatetime;
 	}
 
-	public void setCreate_datetime(Timestamp create_datetime) {
-		this.create_datetime = create_datetime;
+	public void setCreateDatetime(Timestamp createDatetime) {
+		this.createDatetime = createDatetime;
+	}
+
+	public int getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
 	}
 
 	public Timestamp getUpdateDatetime() {
@@ -95,5 +126,4 @@ public class TaskBean implements Serializable {
 		this.updateDatetime = updateDatetime;
 	}
 
-	
 }
