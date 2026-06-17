@@ -13,12 +13,14 @@
 
 <form action="login-servlet" method="POST">
 ユーザID<br>
-<input type="text" name="userId"required><br>
+<input type="text" name="userId" required><br>
 パスワード<br>
 <input type="password" name="password" required><br><br>
 <input type="submit" value="ログイン">
 </form>
+
 <%
+//初回はリクエストスコープから何も取得できないのでnullになる。
 String errorMessage = (String) request.getAttribute("errorMessage");
 if (errorMessage != null) {
 %>

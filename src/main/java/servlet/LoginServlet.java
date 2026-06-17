@@ -30,14 +30,12 @@ public class LoginServlet extends HttpServlet {
    
     /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 *  予期しないアクセスに対して戻す
+	 *  予期しないアクセスに対してログイン画面に戻す
 	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.sendRedirect("login.jsp");
     }
-
-	/**
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -50,14 +48,10 @@ public class LoginServlet extends HttpServlet {
         String userId = request.getParameter("userId");
         String password = request.getParameter("password");
 
-        UserBean userBean = new UserBean();
-        userBean.setUserId(userId);
-        userBean.setPassword(password);
-
         UserDAO userDao = new UserDAO();
 
         try {
-            UserBean loginUser = userDao.login(userBean);
+            UserBean loginUser = userDao.login(userId,password);
 
             // ログイン失敗時
             if (loginUser == null) {
@@ -72,12 +66,15 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userId", loginUser.getUserId());
 
             request.getRequestDispatcher("menu.jsp").forward(request, response);
+            return;
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
 
+            
             request.setAttribute("errorMessage", "システムエラーが発生しました。");
             request.getRequestDispatcher("login.jsp").forward(request, response);
+            return;
         }
     }
 }

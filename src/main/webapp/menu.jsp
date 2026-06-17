@@ -3,11 +3,8 @@
 
 <%
 String userName = (String) session.getAttribute("userName");
-if (userName == null) {
-	request.getRequestDispatcher("login.jsp").forward(request, response);
-	return;
-}
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
