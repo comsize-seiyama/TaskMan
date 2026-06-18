@@ -44,14 +44,19 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
-
+        
+        //画面からのパラメータ取得
         String userId = request.getParameter("userId");
         String password = request.getParameter("password");
-
+        
+        //データベースにユーザー情報を照会
+        UserBean loginInput = new UserBean();
+        loginInput.setUserId(userId);
+        loginInput.setPassword(password);
         UserDAO userDao = new UserDAO();
 
         try {
-            UserBean loginUser = userDao.login(userId,password);
+            UserBean loginUser = userDao.login(loginInput);
 
             // ログイン失敗時
             if (loginUser == null) {
@@ -66,15 +71,12 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userId", loginUser.getUserId());
 
             request.getRequestDispatcher("menu.jsp").forward(request, response);
-            return;
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
 
-            
             request.setAttribute("errorMessage", "システムエラーが発生しました。");
             request.getRequestDispatcher("login.jsp").forward(request, response);
-            return;
         }
     }
 }

@@ -12,13 +12,15 @@ import model.entity.UserBean;
 
 public class UserDAO {
 
-	public UserBean login(String userId,String password) throws ClassNotFoundException, SQLException {
+	public UserBean login(UserBean loginInput) throws ClassNotFoundException, SQLException {
 
-		String sql = "SELECT user_id, user_name FROM m_user WHERE user_id=? AND password=?";
+		String sql = "SELECT user_id,user_name FROM m_user WHERE user_id=? AND password=?";
+		String userId = loginInput.getUserId();
+		String password = loginInput.getPassword();
 		UserBean loginUser = null;
 		
 
-		try (Connection con = ConnectionManager.getConnection(); 
+		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 
 			pstmt.setString(1, userId);
