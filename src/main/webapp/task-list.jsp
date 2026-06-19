@@ -17,7 +17,15 @@
 
 String loginUserId =(String)session.getAttribute("userId");
 %>
+<%
+String message = (String) request.getAttribute("message");
 
+if (message != null) {
+%>
+    <p style="color:red;"><%= message %></p>
+<%
+}
+%>
 
 <form method="post">
 
@@ -63,11 +71,7 @@ String loginUserId =(String)session.getAttribute("userId");
                 
                 if(loginUserId.equals(taskbeanlist.getUserId())){
                 %>
-
-                  
-
-                    <input type="radio"
-                           name="taskId"
+                <input type="radio"name="taskId"
                            value="<%=taskbeanlist.getTaskId()%>">
 
                 <%
