@@ -36,36 +36,47 @@ public class TaskListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		    doPost(request, response);
-	}
+		request.setCharacterEncoding("UTF-8");
+		
+
+	    //タスク一覧格納用
+        List<TaskBean> taskBeanList = new ArrayList<>();
+        
+        try {
+        	//タスク一覧取得
+            TaskDAO taskDao = new TaskDAO();
+            taskBeanList = taskDao.selectAll();
+        
+        if (taskBeanList == null || taskBeanList.isEmpty()) {
+            request.setAttribute("message", "登録されているタスクはありません。");
+        }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        
+        HttpSession session = request.getSession();
+        //セッションスコープへ格納
+        session.setAttribute("taskBeanList", taskBeanList);
+        
+        //一覧画面へ遷移
+        RequestDispatcher rd = request.getRequestDispatcher("task-list.jsp");
+        rd.forward(request, response);
+}}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		//ログインチェック
+				HttpSession session = request.getSession();
+				if (session.getAttribute("userId") == null) {
+				response.sendRedirect("login.jsp");
+				return;
+				}
 		
-
-		    //タスク一覧格納用
-	        List<TaskBean> taskBeanList = new ArrayList<>();
-	        
-	        try {
-	        	//タスク一覧取得
-	            TaskDAO taskDao = new TaskDAO();
-	            taskBeanList = taskDao.selectAll();
-               
-
-	        } catch (SQLException | ClassNotFoundException e) {
-	            e.printStackTrace();
-	        }
-
-	        HttpSession session = request.getSession();
-	        //セッションスコープへ格納
-	        session.setAttribute("taskBeanList", taskBeanList);
-	        
-            //一覧画面へ遷移
-	        RequestDispatcher rd = request.getRequestDispatcher("task-list.jsp");
-	        rd.forward(request, response);
-	}
+		
+		
+}
 }
 
