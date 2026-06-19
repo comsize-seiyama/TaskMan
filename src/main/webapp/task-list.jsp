@@ -17,6 +17,7 @@
 
 String loginUserId =(String)session.getAttribute("userId");
 %>
+<%-- エラーメッセージを表示 --%>
 <%
 String message = (String) request.getAttribute("message");
 
@@ -26,7 +27,6 @@ if (message != null) {
 <%
 }
 %>
-
 <form method="post">
 
     <input type="submit"
@@ -91,7 +91,7 @@ if (message != null) {
             <td><%=taskbeanlist.getCategoryName()%></td>
 
             <td>
-
+                 <%--期限項目のnullチェック --%>
                 <%
                 if(taskbeanlist.getLimitDate() == null){
                 %>
@@ -115,7 +115,7 @@ if (message != null) {
             <td><%=taskbeanlist.getStatusName()%></td>
 
             <td>
-
+                <%--メモ項目のnullチェック --%>
                 <%
                 if(taskbeanlist.getMemo() == null){
                 %>
