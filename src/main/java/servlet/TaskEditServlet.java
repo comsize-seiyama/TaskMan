@@ -85,6 +85,7 @@ public class TaskEditServlet extends HttpServlet {
 			return;
 		}
 		UserBean loginUserBean = (UserBean)session.getAttribute("userBean");
+		
 		if(!loginUserBean.getUserId().equals(taskBean.getUserId())) {
 			//タスク一覧表示画面を再表示し、
 			//エラーメッセージ「選択されたタスクに編集権限がないか、存在していません」を表示する。
@@ -107,6 +108,14 @@ public class TaskEditServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
+		//ログインチェック
+		HttpSession session = request.getSession();
+		if (session.getAttribute("userId") == null) {
+			response.sendRedirect("login.jsp");
+			return;
+		}
+		request.setCharacterEncoding("UTF-8");
+		
 		
 	}
 
