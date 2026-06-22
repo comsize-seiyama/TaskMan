@@ -40,6 +40,12 @@ public class TaskEditServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
+		//ログインチェック
+				HttpSession session = request.getSession();
+				if (session.getAttribute("userId") == null) {
+					response.sendRedirect("login.jsp");
+					return;
+				}
 		request.setCharacterEncoding("UTF-8");
 		//タスクIDを取得
 		int taskId = Integer.parseInt(request.getParameter("taskId"));
@@ -66,22 +72,34 @@ public class TaskEditServlet extends HttpServlet {
 			//例外フローE2のケース
 			//タスク一覧表示画面に再遷移し
 			//エラーメッセージ「データベース情報の取得に失敗しました。」を表示
-			e.printStackTrace();
+			request.setAttribute("message", "データベース情報の取得に失敗しました。");
+			request.getRequestDispatcher("task-list.jsp").forward(request, response);
+			return;
 		}
-		//セッションスコープを取得
-		HttpSession session = request.getSession();
 		
 		//代替フローA6のケース
 		if(taskBean == null) {
-			//一覧表示に再遷移、エラーメッセージ「選択されたタスクに編集権限がないか、存在していません」を表示
+			//タスク一覧表示画面に再遷移、エラーメッセージ「選択されたタスクに編集権限がないか、存在していません」を表示
+			request.setAttribute("message", "選択されたタスクに編集権限がないか、存在していません");
+			request.getRequestDispatcher("task-list.jsp").forward(request, response);
+			return;
 		}
 		UserBean loginUserBean = (UserBean)session.getAttribute("userBean");
 		if(!loginUserBean.getUserId().equals(taskBean.getUserId())) {
 			//タスク一覧表示画面を再表示し、
 			//エラーメッセージ「選択されたタスクに編集権限がないか、存在していません」を表示する。
+			request.setAttribute("message", "選択されたタスクに編集権限がないか、存在していません");
+			request.getRequestDispatcher("task-list.jsp").forward(request, response);
+			return;
 		}
 		//タスク情報をセッションスコープに詰める
 		session.setAttribute("taskBean", taskBean);
+		session.setAttribute("userBeanList", userBeanList);
+		session.setAttribute("categoryBeanList", categoryBeanList);
+		session.setAttribute("statusBeanList", statusBeanList);
+		
+		request.getRequestDispatcher("task-edit-form.jsp").forward(request, response);
+		return;
 	}
 
 	/**
