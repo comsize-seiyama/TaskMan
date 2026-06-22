@@ -10,9 +10,25 @@
 <title>タスク編集フォーム</title>
 </head>
 <body>
-	<%List<TaskBean> taskBeanList = (List<TaskBean>)session.getAttribute("taskBeanList"); %>
+	<%
+	TaskBean taskBean = (TaskBean)session.getAttribute("taskBean");
+	List<CategoryBean> categoryBeanList = (List<CategoryBean>)session.getAttribute("categoryBeanList");
+	List<UserBean> userBeanList = (List<UserBean>)session.getAttribute("userBeanList");
+	List<StatusBean> statusBeanList = (List<StatusBean>)session.getAttribute("statusBeanList");
+	%>
 	<h1>タスク編集フォーム画面</h1>
 	<hr>
+	<p style="red">*</p>がついている欄は必須入力です
+	<%-- エラーメッセージを表示 --%>
+<%
+String message = (String) request.getAttribute("message");
+
+if (message != null) {
+%>
+    <p style="color:red;"><%= message %></p>
+<%
+}
+%>
 	<form action="task-edit-servlet" method="POST">
 		<table border="1">
 			<tr>
@@ -23,11 +39,11 @@
 				<td>カテゴリ名</td>
 				<td><select name="categoryCode">
 						<%
-						for (CategoryBean CategoryBean : CategoryBeanList) {
+						for (CategoryBean categoryBean : categoryBeanList) {
 						%>
 
-						<option value="<%=CategoryBean.getCategoryId()%>">
-							<%=CategoryBean.getCategoryId()%>
+						<option value="<%=categoryBean.getCategoryId()%>">
+							<%=categoryBean.getCategoryId()%>
 						</option>
 						<%
 						}
@@ -42,11 +58,11 @@
 				<td>担当者</td>
 				<td><select name="categoryCode">
 						<%
-						for (UserBean CategoryBean : UserBeanList) {
+						for (UserBean userBean : userBeanList) {
 						%>
 
-						<option value="<%=UserBean.getUserId()%>">
-							<%=UserBean.getUserName()%>
+						<option value="<%=userBean.getUserId()%>">
+							<%=userBean.getUserName()%>
 						</option>
 						<%
 						}
@@ -57,11 +73,11 @@
 				<td>ステータス</td>
 				<td><select name="categoryCode">
 						<%
-						for (StatusBean CategoryBean : StatusBeanList) {
+						for (StatusBean statusBean : statusBeanList) {
 						%>
 
-						<option value="<%=StatusBean.getStatusCode()%>">
-							<%=StatusBean.getStatusName()%>
+						<option value="<%= statusBean.getStatusCode()%>">
+							<%= statusBean.getStatusName()%>
 						</option>
 						<%
 						}
@@ -73,7 +89,7 @@
 				<td><input type="text" name="price" required>円</td>
 			</tr>
 		</table>
-		<input type="submit" value="登録"> 
+		<input type="submit" value="編集実行"> 
 		<input type="reset" value="クリア"> <br>
 	</form>
 	<br>

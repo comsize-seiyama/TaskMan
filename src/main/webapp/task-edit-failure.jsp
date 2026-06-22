@@ -4,13 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>タスク編集完了</title>
+<title>タスク編集失敗</title>
 </head>
 <body>
-<h1>タスク編集完了画面</h1>
+<h1>タスク編集失敗画面</h1>
 <hr>
 <br>
-次のタスクを編集しました。
+次のタスクを編集できませんでした。
 
 
 </body>
