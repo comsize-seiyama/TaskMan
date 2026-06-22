@@ -1,26 +1,26 @@
 package model.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 public class TaskBean implements Serializable {
 
 	//フィールド
 	private int taskId;//タスクID
 	private String taskName;//タスク名
+	private int categoryId;
 	private String categoryName;//カテゴリ名
-	private Date limitDate;//期限
+	private LocalDate limitDate;//期限
+	private String userId;
 	private String userName;//ユーザ名
+	private String statusCode;
 	private String statusName;//ステータス名
 	private String memo;//メモ
 	private Timestamp createDatetime;//登録日時
 	private Timestamp updateDatetime;//更新日時
 
-	private int categoryId;
 
-	private String userId;
-	private String statusCode;
 
 	//コンストラクタ
 	public TaskBean() {
@@ -52,11 +52,11 @@ public class TaskBean implements Serializable {
 		this.categoryName = categoryName;
 	}
 
-	public Date getLimitDate() {
+	public LocalDate getLimitDate() {
 		return limitDate;
 	}
 
-	public void setLimitDate(Date limitDate) {
+	public void setLimitDate(LocalDate limitDate) {
 		this.limitDate = limitDate;
 	}
 
