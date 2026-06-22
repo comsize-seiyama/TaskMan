@@ -42,7 +42,10 @@ public class TaskDAO {
 	            taskBean.setTaskId(rs.getInt("task_id"));
 	            taskBean.setTaskName(rs.getString("task_name"));
 	            taskBean.setCategoryName(rs.getString("category_name"));
-	            taskBean.setLimitDate(rs.getDate("limit_date"));
+	            
+	            java.sql.Date sqlDate = rs.getDate("limit_date") ;
+	            taskBean.setLimitDate(sqlDate != null ? sqlDate.toLocalDate() : null);
+	            
 	            taskBean.setUserId(rs.getString("user_id"));
 	            taskBean.setUserName(rs.getString("user_name"));
 	            taskBean.setStatusName(rs.getString("status_name"));
@@ -87,7 +90,10 @@ public class TaskDAO {
 					taskBean.setTaskId(rs.getInt("task_id"));
 					taskBean.setTaskName(rs.getString("task_name"));
 					taskBean.setCategoryName(rs.getString("category_name"));
-					taskBean.setLimitDate(rs.getDate("limit_date"));
+					
+					java.sql.Date sqlDate = rs.getDate("limit_date") ;
+		            taskBean.setLimitDate(sqlDate != null ? sqlDate.toLocalDate() : null);
+		            
 					taskBean.setUserName(rs.getString("user_name"));
 					taskBean.setStatusName(rs.getString("status_name"));
 					taskBean.setMemo(rs.getString("memo"));
