@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.dao.TaskDAO;
 import model.entity.TaskBean;
@@ -33,19 +34,26 @@ public class TaskDeleteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String taskIdstr = request.getParameter("taskId");
-
-		if (taskIdstr == null) {
+		
+		HttpSession session = request.getSession();
+		int loginUserId = (int) session.getAttribute("userId");
+		
+		// ログインチェック
+        if ( session.getAttribute("userId") == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+        int taskId = Integer.parseInt(request.getParameter("taskId"));
+           
+         // タスク情報取得
+     	   TaskDAO taskDao = new TaskDAO();
+     	   TaskBean taskBean = taskDao.selectById(taskId);
+           if(session.getAttribute("userId").equals(taskBean.getUserId())) {
+           }
+           
+		
+		if (taskId < 0) {
 			request.setAttribute("message", "タスクを選択してください。");
 
 			RequestDispatcher rd = request.getRequestDispatcher("task-list.jsp");
@@ -54,11 +62,9 @@ public class TaskDeleteServlet extends HttpServlet {
 		}
 
 		try {
-			int taskId = Integer.parseInt(taskIdstr);
-
+			
 			// タスク情報取得
-			TaskDAO taskDao = new TaskDAO();
-			TaskBean taskBean = taskDao.selectById(taskId);
+			taskBean = taskDao.selectById(taskId);
 
 			// リクエストスコープへ格納
 			request.setAttribute("taskBean", taskBean);
@@ -78,5 +84,18 @@ public class TaskDeleteServlet extends HttpServlet {
 			rd.forward(request, response);
 		}
 	}
+	
+		
+	
 
-}
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		String taskIdstr = request.getParameter("taskId");
+		if (taskIdstr == null) {
+			request.setAttribute("message", "タスクを選択してください。");
+
+}}
