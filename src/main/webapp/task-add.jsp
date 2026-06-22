@@ -20,7 +20,15 @@
 
   <h1>タスク登録画面</h1>
   <hr>
-
+  <%
+//初回はリクエストスコープから何も取得できないのでnullになる。
+String errorMessage = (String) request.getAttribute("errorMessage");
+if (errorMessage != null) {
+%>
+    <p style="color:red;"><%= errorMessage %></p>
+<%
+}
+%>
   <form action="task-add-servlet" method="POST">
     <table>
       <tr>

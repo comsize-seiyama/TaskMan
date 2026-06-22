@@ -103,6 +103,33 @@ public class TaskDAO {
 
 		return taskBean;
 	}
+
+	
+	public int insert(TaskBean inputBean) throws ClassNotFoundException, SQLException {
+		
+		String sql ="INSERT INTO t_task " +
+	            "(task_name, category_id, limit_date, user_id, status_code, memo) " +
+	            "VALUES (?, ?, ?, ?, ?, ?)";
+		
+		int insertResult = 0;
+		
+		try (Connection con = ConnectionManager.getConnection();
+	            PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1,inputBean.getTaskName() );
+			pstmt.setInt(2,inputBean.getCategoryId());
+			pstmt.setDate(3,java.sql.Date.valueOf(inputBean.getLimitDate()));
+			pstmt.setString(4,inputBean.getUserId());
+			pstmt.setString(5,inputBean.getStatusCode());
+			pstmt.setString(6, inputBean.getMemo());
+			
+			insertResult = pstmt.executeUpdate();
+		}
+		return insertResult;
+	}	
+	
+}
+=======
 	public int deleteTask(int taskId)
 	        throws ClassNotFoundException, SQLException {
 

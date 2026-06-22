@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import model.dao.CategoryDAO;
 import model.dao.StatusDAO;
+import model.dao.TaskDAO;
 import model.dao.UserDAO;
 import model.entity.CategoryBean;
 import model.entity.StatusBean;
@@ -160,6 +161,11 @@ public class TaskAddServlet extends HttpServlet {
 		//バリデーションチェック③（期限）
 
 		String dateParam = request.getParameter("date");
+		if (dateParam == null || dateParam.isBlank()) {
+			request.setAttribute("errorMessage", "日付はカレンダーから指定してください。");
+			request.getRequestDispatcher("task-add.jsp").forward(request, response);
+			return;
+		}
 		LocalDate limitDate;
 		//yyyy-mm-dd形式の文字列を日付を扱えるLocalDateとして格納する。
 		try {
@@ -228,35 +234,59 @@ public class TaskAddServlet extends HttpServlet {
 		TaskBean inputBean = new TaskBean();
 
 		inputBean.setTaskName(taskNameParam);//タスク名
-		inputBean.setTaskId(categoryIdParam);//カテゴリID
+		inputBean.setCategoryId(categoryIdParam);//カテゴリID
 		inputBean.setLimitDate(limitDate);//期限
 		inputBean.setUserId(userIdParam);//ユーザーID
 		inputBean.setStatusCode(statusCodeParam);//ステータスコード
 		inputBean.setMemo(memoParam);
 
+		
 		//jspに表示する用のデータ取得 取得したcategoryIdと一致するcategoryNameをBeanに詰める
-		String categoryNameParam;
+		String categoryNameParam = null;
 		for (CategoryBean c : categoryList) {
 			if (c.getCategoryId() == categoryIdParam) {
 				categoryNameParam = c.getCategoryName();
 				break;
 			}
 		}
-		String UserNameParam;
+		inputBean.setCategoryName(categoryNameParam);
+
+		String userNameParam = null;
 		for (UserBean u : userList) {
 			if (u.getUserId().equals(userIdParam)) {
-				UserNameParam = u.getUserName();
+				userNameParam = u.getUserName();
 				break;
 			}
 		}
-		String statusNameParam;
+		inputBean.setUserName(userNameParam);
+
+		String statusNameParam = null;
 		for (StatusBean s : statusList) {
 			if (s.getStatusCode().equals(statusCodeParam)) {
-				statusNameParam = s.getStatusName(); 
+				statusNameParam = s.getStatusName();
 				break;
 			}
 		}
-
-	}
+		inputBean.setStatusName(statusNameParam);
+	
+		//TaskDAOにタスク情報を渡してDBに登録を行う。
+		TaskDAO taskDAO = new TaskDAO();
+		int insertResult = 0;
+		try {
+			insertResult = taskDAO.insert(inputBean);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			//失敗画面へ遷移する
+			request.setAttribute("inputBean",inputBean);
+			request.getRequestDispatcher("task-add-success.jsp").forward(request, response);
+		}
+		if(insertResult == 1) {
+			request.setAttribute("inputBean",inputBean);
+			request.getRequestDispatcher("task-add-success.jsp").forward(request, response);
+			
+		}
+	}	
+		
 
 }
