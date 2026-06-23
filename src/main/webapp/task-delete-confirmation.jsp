@@ -5,10 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>削除確認画面</title>
+<title>タスク削除確認画面</title>
 </head>
 <body>
-<h1>削除確認画面</h1>
+<h1>タスク削除確認画面</h1>
 次のタスクを削除します。よろしいですか？
 <% TaskBean taskBean = (TaskBean)request.getAttribute("taskBean");%>
 
@@ -52,7 +52,7 @@
            value="<%=taskBean.getTaskId()%>">
 
     <input type="submit"
-           value="削除">
+           value="削除実行">
 
 </form>
 
