@@ -45,7 +45,7 @@
 
 <br>
 
-<form action="TaskDeleteServlet" method="post">
+<form action="task-delete-servlet" method="post">
 
     <input type="hidden"
            name="taskId"

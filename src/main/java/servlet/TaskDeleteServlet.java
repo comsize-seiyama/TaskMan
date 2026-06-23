@@ -76,8 +76,7 @@ public class TaskDeleteServlet extends HttpServlet {
 		                request.getRequestDispatcher("task-list-servlet");
 		        rd.forward(request, response);
 		        return;
-		    } System.out.println("loginUserId = " + loginUserId);
-		    System.out.println("taskUserId = " + taskBean.getUserId());
+		    } 
 
 		    // 本人チェック
 		    if (!loginUserId.equals(taskBean.getUserId())) {
