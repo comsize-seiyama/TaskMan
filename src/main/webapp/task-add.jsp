@@ -52,7 +52,8 @@ if (errorMessage != null) {
         	</td>
       </tr>
       <tr>
-        <td>期限</td>
+        <td>
+        期限</td>
         <td><input type="date" name="date" min="<%= LocalDate.now()%>" ></td>
       </tr>
       <tr>
