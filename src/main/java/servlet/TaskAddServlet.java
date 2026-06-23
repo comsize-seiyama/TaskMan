@@ -294,7 +294,6 @@ public class TaskAddServlet extends HttpServlet {
 		}
 
 	}
-	
 	/**
 	 * 入力エラーを設定してタスク登録画面へ戻す。
 	 */
@@ -308,6 +307,4 @@ public class TaskAddServlet extends HttpServlet {
 	    request.getRequestDispatcher("/task-add.jsp")
 	            .forward(request, response);
 	}
-		
-
 }

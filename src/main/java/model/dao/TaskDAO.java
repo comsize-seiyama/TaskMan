@@ -133,6 +133,7 @@ public class TaskDAO {
 		return insertResult;
 	}	
 	
+
 	public int deleteTask(int taskId)
 	        throws ClassNotFoundException, SQLException {
 
@@ -151,6 +152,6 @@ public class TaskDAO {
 	    }
 
 	    return count;
-	    
 	}
 }
+
