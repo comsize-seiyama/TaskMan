@@ -27,7 +27,7 @@ if (message != null) {
 <%
 }
 %>
-<form method="post">
+<form method="GET">
 
     <input type="submit"
            value="編集"
