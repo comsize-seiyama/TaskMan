@@ -117,20 +117,19 @@ public class TaskAddServlet extends HttpServlet {
 			response.sendRedirect("login.jsp");
 			return;
 		}
-
+		
+		
 		//バリデーションチェック①（タスク名）
 
 		//空欄および空文字が入力されている場合のチェック
 		String taskNameParam = request.getParameter("taskName");
 		if (taskNameParam == null || taskNameParam.isBlank()) {
-			request.setAttribute("errorMessage", "タスク名を入力してください");
-			request.getRequestDispatcher("task-add.jsp").forward(request, response);
+			forwardInputError(request, response, "タスク名を入力してください");
 			return;
 		}
 		//５０文字超過チェック
 		if (taskNameParam.length() > 50) {
-			request.setAttribute("errorMessage", "タスク名は５０文字以内で入力してください。");
-			request.getRequestDispatcher("task-add.jsp").forward(request, response);
+			forwardInputError(request, response, "タスク名は５０文字以内で入力してください。");
 			return;
 		}
 
@@ -140,8 +139,7 @@ public class TaskAddServlet extends HttpServlet {
 		try {
 			categoryIdParam = Integer.parseInt(request.getParameter("categoryId"));
 		} catch (NumberFormatException e) {
-			request.setAttribute("errorMessage", "カテゴリ名はプルダウンから選択してください。");
-			request.getRequestDispatcher("task-add.jsp").forward(request, response);
+			forwardInputError(request, response, "カテゴリ名はプルダウンから選択してください。");
 			return;
 		}
 		boolean categoryIdCheck = false;
@@ -153,38 +151,40 @@ public class TaskAddServlet extends HttpServlet {
 			}
 		}
 		if (!categoryIdCheck) {
-			request.setAttribute("errorMessage", "カテゴリ名はプルダウンから選択してください。");
-			request.getRequestDispatcher("task-add.jsp").forward(request, response);
+			forwardInputError(request, response, "カテゴリ名はプルダウンから選択してください。");
 			return;
 		}
 
-		//バリデーションチェック③（期限）
+		
+		// バリデーションチェック③（期限）
 
 		String dateParam = request.getParameter("date");
-		if (dateParam == null || dateParam.isBlank()) {
-			request.setAttribute("errorMessage", "日付はカレンダーから指定してください。");
-			request.getRequestDispatcher("task-add.jsp").forward(request, response);
-			return;
+
+		// 未入力の場合はnullのまま登録する
+		LocalDate limitDate = null;
+
+		// 日付が入力されている場合のみチェックする
+		if (dateParam != null && !dateParam.isBlank()) {
+
+		    // yyyy-MM-dd形式の文字列をLocalDateへ変換する
+		    try {
+		        limitDate = LocalDate.parse(dateParam);
+		    } catch (DateTimeParseException e) {
+		        forwardInputError(request,response,"日付はカレンダーから指定してください。");
+		        return;
+		    }
+
+		    // 過去日チェック
+		    if (limitDate.isBefore(LocalDate.now())) {
+		        forwardInputError(request,response,"期限に過去日付は指定できません。");
+		        return;
+		    }
 		}
-		LocalDate limitDate;
-		//yyyy-mm-dd形式の文字列を日付を扱えるLocalDateとして格納する。
-		try {
-			limitDate = LocalDate.parse(dateParam);
-		} catch (DateTimeParseException e) {
-			request.setAttribute("errorMessage", "日付はカレンダーから指定してください。");
-			request.getRequestDispatcher("task-add.jsp").forward(request, response);
-			return;
-		}
-		if (limitDate.isBefore(LocalDate.now())) {
-			request.setAttribute("errorMessage", "期限に過去日付は指定できません。");
-			request.getRequestDispatcher("task-add.jsp").forward(request, response);
-			return;
-		}
+
 		//バリデーションチェック④（担当者チェック）
 		String userIdParam = request.getParameter("userId");
 		if (userIdParam == null || userIdParam.isBlank()) {
-			request.setAttribute("errorMessage", "担当者名はプルダウンから選択してください。");
-			request.getRequestDispatcher("task-add.jsp").forward(request, response);
+			forwardInputError(request, response, "担当者名はプルダウンから選択してください。");
 			return;
 		}
 		boolean userIdCheck = false;
@@ -196,16 +196,14 @@ public class TaskAddServlet extends HttpServlet {
 			}
 		}
 		if (!userIdCheck) {
-			request.setAttribute("errorMessage", "担当者名はプルダウンから選択してください。");
-			request.getRequestDispatcher("task-add.jsp").forward(request, response);
+			forwardInputError(request, response, "担当者名はプルダウンから選択してください。");
 			return;
 		}
 
 		//バリデーションチェック⑤（ステータスチェック）
 		String statusCodeParam = request.getParameter("statusCode");
 		if (statusCodeParam == null || statusCodeParam.isBlank()) {
-			request.setAttribute("errorMessage", "ステータスはプルダウンから選択してください。");
-			request.getRequestDispatcher("task-add.jsp").forward(request, response);
+			forwardInputError(request, response, "ステータスはプルダウンから選択してください。");
 			return;
 		}
 		boolean statusCodeCheck = false;
@@ -217,16 +215,17 @@ public class TaskAddServlet extends HttpServlet {
 			}
 		}
 		if (!statusCodeCheck) {
-			request.setAttribute("errorMessage", "ステータスはプルダウンから選択してください。");
-			request.getRequestDispatcher("task-add.jsp").forward(request, response);
+			forwardInputError(request, response, "ステータスはプルダウンから選択してください。");
 			return;
 		}
 
 		//バリデーションチェック⑥（５０文字超過チェック）
 		String memoParam = request.getParameter("memo");
+		if (memoParam == null ) {
+			memoParam = "";
+		}
 		if (memoParam.length() > 100) {
-			request.setAttribute("errorMessage", "メモは１００文字以内で入力してください。");
-			request.getRequestDispatcher("task-add.jsp").forward(request, response);
+			forwardInputError(request, response, "メモは１００文字以内で入力してください。");
 			return;
 		}
 
@@ -279,14 +278,36 @@ public class TaskAddServlet extends HttpServlet {
 			e.printStackTrace();
 			//失敗画面へ遷移する
 			request.setAttribute("inputBean",inputBean);
-			request.getRequestDispatcher("task-add-success.jsp").forward(request, response);
+			request.getRequestDispatcher("task-add-failure.jsp").forward(request, response);
+			return;
 		}
+		//タスク登録成功。
 		if(insertResult == 1) {
 			request.setAttribute("inputBean",inputBean);
 			request.getRequestDispatcher("task-add-success.jsp").forward(request, response);
-			
+			return;
+		}//タスク登録失敗
+		if(insertResult == 0) {
+			request.setAttribute("inputBean",inputBean);
+			request.getRequestDispatcher("task-add-failure.jsp").forward(request, response);
+			return;
 		}
-	}	
+
+	}
+	
+	/**
+	 * 入力エラーを設定してタスク登録画面へ戻す。
+	 */
+	private void forwardInputError(
+	        HttpServletRequest request,
+	        HttpServletResponse response,
+	        String errorMessage)
+	        throws ServletException, IOException {
+
+	    request.setAttribute("errorMessage", errorMessage);
+	    request.getRequestDispatcher("/task-add.jsp")
+	            .forward(request, response);
+	}
 		
 
 }

@@ -103,6 +103,7 @@ public class TaskDAO {
 
 		return taskBean;
 	}
+
 	
 	public int insert(TaskBean inputBean) throws ClassNotFoundException, SQLException {
 		
@@ -117,7 +118,12 @@ public class TaskDAO {
 			
 			pstmt.setString(1,inputBean.getTaskName() );
 			pstmt.setInt(2,inputBean.getCategoryId());
-			pstmt.setDate(3,java.sql.Date.valueOf(inputBean.getLimitDate()));
+			//期限がnullだった場合NPEにならないように分岐
+			if (inputBean.getLimitDate() == null) {
+			    pstmt.setNull(3, java.sql.Types.DATE);//JDBCにDATE型のnullであることを明示
+			} else {
+			    pstmt.setDate(3,java.sql.Date.valueOf(inputBean.getLimitDate()));
+			}
 			pstmt.setString(4,inputBean.getUserId());
 			pstmt.setString(5,inputBean.getStatusCode());
 			pstmt.setString(6, inputBean.getMemo());
@@ -127,4 +133,24 @@ public class TaskDAO {
 		return insertResult;
 	}	
 	
+	public int deleteTask(int taskId)
+	        throws ClassNotFoundException, SQLException {
+
+	    String sql =
+	            "DELETE FROM t_task " +
+	            "WHERE task_id = ?";
+
+	    int count = 0;
+
+	    try (Connection con = ConnectionManager.getConnection();
+	         PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+	        pstmt.setInt(1, taskId);
+
+	        count = pstmt.executeUpdate();
+	    }
+
+	    return count;
+	    
+	}
 }
