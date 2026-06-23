@@ -132,7 +132,48 @@ public class TaskDAO {
 		}
 		return insertResult;
 	}	
-	
+
+	/**
+	 * すでに存在しているタスクを編集するためのメソッドです
+	 * @author 清山
+	 * @param editTask
+	 * 編集後のタスク情報が格納されたBeanです
+	 * @return 更新されたレコードの件数
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * 
+	 */
+	public int edit(TaskBean editTask) throws SQLException, ClassNotFoundException {
+		String sql = "UPDATE t_task "
+				+ "SET task_name = ?, "
+				+ "category_id = ?, "
+				+ "limit_date = ?, "
+				+ "user_id = ?, "
+				+ "status_code = ?, "
+				+ "memo = ? "
+				+ "WHERE task_id = 2";
+		
+		int editResult = 0;
+		
+		try (Connection con = ConnectionManager.getConnection();
+		         PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+		        pstmt.setString(1, editTask.getTaskName());
+		        pstmt.setInt(2, editTask.getCategoryId());
+		        if (!(editTask.getLimitDate()==null)) {
+					pstmt.setDate(3, java.sql.Date.valueOf(editTask.getLimitDate()));
+				}else {
+					pstmt.setDate(3,null);
+
+				}
+				pstmt.setString(4, editTask.getUserId());
+		        pstmt.setString(5, editTask.getStatusCode());
+		        pstmt.setString(6, editTask.getMemo());
+
+		        editResult  = pstmt.executeUpdate();
+		    }
+		return editResult;
+	}
 
 	public int deleteTask(int taskId)
 	        throws ClassNotFoundException, SQLException {
