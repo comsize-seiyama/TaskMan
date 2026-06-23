@@ -118,7 +118,12 @@ public class TaskDAO {
 			
 			pstmt.setString(1,inputBean.getTaskName() );
 			pstmt.setInt(2,inputBean.getCategoryId());
-			pstmt.setDate(3,java.sql.Date.valueOf(inputBean.getLimitDate()));
+			//期限がnullだった場合NPEにならないように分岐
+			if (inputBean.getLimitDate() == null) {
+			    pstmt.setNull(3, java.sql.Types.DATE);//JDBCにDATE型のnullであることを明示
+			} else {
+			    pstmt.setDate(3,java.sql.Date.valueOf(inputBean.getLimitDate()));
+			}
 			pstmt.setString(4,inputBean.getUserId());
 			pstmt.setString(5,inputBean.getStatusCode());
 			pstmt.setString(6, inputBean.getMemo());
@@ -127,7 +132,51 @@ public class TaskDAO {
 		}
 		return insertResult;
 	}	
-	
+
+	/**
+	 * すでに存在しているタスクを編集するためのメソッドです
+	 * @author 清山
+	 * @param editTask
+	 * 編集後のタスク情報が格納されたBeanです
+	 * @return 更新されたレコードの件数
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * 
+	 */
+	public int edit(TaskBean editTask) throws SQLException, ClassNotFoundException {
+		String sql = "UPDATE t_task "
+				+ "SET task_name = ?, "
+				+ "category_id = ?, "
+				+ "limit_date = ?, "
+				+ "user_id = ?, "
+				+ "status_code = ?, "
+				+ "memo = ? "
+				+ "WHERE task_id = ?";
+		
+		int editResult = 0;
+		
+		try (Connection con = ConnectionManager.getConnection();
+		         PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+		        pstmt.setString(1, editTask.getTaskName());
+		        pstmt.setInt(2, editTask.getCategoryId());
+		        if (!(editTask.getLimitDate() == null)) {
+		        	//期限が入力されている場合
+					pstmt.setDate(3, java.sql.Date.valueOf(editTask.getLimitDate()));
+				}else {
+					//期限が入力されていない場合
+					pstmt.setDate(3,null);
+
+				}
+				pstmt.setString(4, editTask.getUserId());
+		        pstmt.setString(5, editTask.getStatusCode());
+		        pstmt.setString(6, editTask.getMemo());
+		        pstmt.setInt(7, editTask.getTaskId());
+
+		        editResult  = pstmt.executeUpdate();
+		    }
+		return editResult;
+	}
 
 	public int deleteTask(int taskId)
 	        throws ClassNotFoundException, SQLException {
@@ -147,4 +196,6 @@ public class TaskDAO {
 	    }
 
 	    return count;
-}}
+	}
+}
+

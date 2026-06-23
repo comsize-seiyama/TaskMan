@@ -7,7 +7,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>タスク登録成功画面</title>
+<title>タスク登録失敗画面</title>
 </head>
 <body>
 <h1>タスク登録画面</h1>
@@ -29,7 +29,7 @@
       <tr>
         <th>期限</th>
         <td>
-         <%= resultBean.getLimitDate() %>
+         <%= resultBean.getLimitDate() == null ? "" : resultBean.getLimitDate() %>
         </td>
       </tr>
       <tr>

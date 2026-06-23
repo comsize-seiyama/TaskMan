@@ -29,7 +29,7 @@
       <tr>
         <th>期限</th>
         <td>
-         <%= resultBean.getLimitDate() %>
+         <%= resultBean.getLimitDate() == null ? "" : resultBean.getLimitDate() %>
         </td>
       </tr>
       <tr>

@@ -24,21 +24,23 @@
 		</tr>
 		<tr>
 			<td>期限</td>
-			<td><%=editTaskBean.getLimitDate()%></td>
+			<td><%=editTaskBean.getLimitDate()== null ? "" : editTaskBean.getLimitDate()%></td>
 		</tr>
 		<tr>
 			<td>担当者</td>
-			<td><%=%></td>
+			<td><%=editTaskBean.getUserName()%></td>
 		</tr>
 		<tr>
 			<td>ステータス</td>
-			<td><%=%></td>
+			<td><%=editTaskBean.getStatusName()%></td>
 		</tr>
 		<tr>
 			<td>メモ</td>
-			<td><%=%></td>
+			<td><%=editTaskBean.getMemo()%></td>
 		</tr>
 	</table>
-	<form action="menu.jsp" method="POST"></form>
+	<form action="menu.jsp" method="POST">
+	<input type="submit" value ="メニュー画面へ">
+	</form>
 </body>
 </html>
