@@ -28,11 +28,11 @@
 		</tr>
 		<tr>
 			<td>担当者</td>
-			<td><%=%></td>
+			<td><%=editTaskBean.getStatusName()%></td>
 		</tr>
 		<tr>
 			<td>ステータス</td>
-			<td><%=%></td>
+			<td><%=editTaskBean%></td>
 		</tr>
 		<tr>
 			<td>メモ</td>

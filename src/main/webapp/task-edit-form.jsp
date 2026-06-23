@@ -18,7 +18,7 @@
 	%>
 	<h1>タスク編集フォーム画面</h1>
 	<hr>
-	<p style="red">*</p>がついている欄は必須入力です
+	<span style="color: red;">*</span>がついている欄は必須入力です
 	<%-- エラーメッセージを表示 --%>
 <%
 String message = (String) request.getAttribute("message");
@@ -32,12 +32,12 @@ if (message != null) {
 	<form action="task-edit-servlet" method="POST">
 		<table border="1">
 			<tr>
-				<td>タスク名</td>
+				<td><span style="color: red;">*</span>タスク名</td>
 				<td><input type="text" name="taskName" required></td>
 			</tr>
 			<tr>
-				<td>カテゴリ名</td>
-				<td><select name="categoryName">
+				<td><span style="color: red;">*</span>カテゴリ名</td>
+				<td><select name="categoryId">
 						<%
 						for (CategoryBean categoryBean : categoryBeanList) {
 						%>
@@ -52,11 +52,11 @@ if (message != null) {
 			</tr>
 			<tr>
 				<td>期限</td>
-				<td><input type="date" name="date" min="<%= LocalDate.now()%>" required></td>
+				<td><input type="date" name="date" min="<%= LocalDate.now()%>"></td>
 			</tr>
 			<tr>
-				<td>担当者</td>
-				<td><select name="userName">
+				<td><span style="color: red;">*</span>担当者</td>
+				<td><select name="userId">
 						<%
 						for (UserBean userBean : userBeanList) {
 						%>
@@ -70,7 +70,7 @@ if (message != null) {
 				</select></td>
 			</tr>
 			<tr>
-				<td>ステータス</td>
+				<td><span style="color: red;">*</span>ステータス</td>
 				<td><select name="statusCode">
 						<%
 						for (StatusBean statusBean : statusBeanList) {
@@ -86,7 +86,7 @@ if (message != null) {
 			</tr>
 			<tr>
 				<td>メモ</td>
-				<td><input type="text" name="memo" required></td>
+				<td><input type="text" name="memo"></td>
 			</tr>
 		</table>
 		<input type="submit" value="編集実行"> 
