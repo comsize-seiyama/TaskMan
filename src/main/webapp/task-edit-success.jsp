@@ -8,7 +8,12 @@
 </head>
 <body>
 	<%
-	TaskBean editTaskBean = (TaskBean)session.getAttribute("taskBean");
+	TaskBean editTaskBean = (TaskBean)request.getAttribute("editTaskBean");
+	session.removeAttribute("beforeTaskBean");
+	session.removeAttribute("editTaskBean");
+	session.removeAttribute("userList");
+	session.removeAttribute("categoryList");
+	session.removeAttribute("statusList");
 	%>
 	<h1>タスク編集完了画面</h1>
 	<hr>

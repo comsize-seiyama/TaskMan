@@ -12,9 +12,9 @@
 <body>
 	<%
 	TaskBean taskBean = (TaskBean)session.getAttribute("taskBean");
-	List<CategoryBean> categoryBeanList = (List<CategoryBean>)session.getAttribute("categoryBeanList");
-	List<UserBean> userBeanList = (List<UserBean>)session.getAttribute("userBeanList");
-	List<StatusBean> statusBeanList = (List<StatusBean>)session.getAttribute("statusBeanList");
+	List<CategoryBean> categoryList = (List<CategoryBean>)session.getAttribute("categoryList");
+	List<UserBean> userList = (List<UserBean>)session.getAttribute("userList");
+	List<StatusBean> statusList = (List<StatusBean>)session.getAttribute("statusList");
 	%>
 	<h1>タスク編集フォーム画面</h1>
 	<hr>
@@ -39,7 +39,7 @@ if (message != null) {
 				<td><span style="color: red;">*</span>カテゴリ名</td>
 				<td><select name="categoryId">
 						<%
-						for (CategoryBean categoryBean : categoryBeanList) {
+						for (CategoryBean categoryBean : categoryList) {
 						%>
 
 						<option value="<%=categoryBean.getCategoryId()%>">
@@ -58,7 +58,7 @@ if (message != null) {
 				<td><span style="color: red;">*</span>担当者</td>
 				<td><select name="userId">
 						<%
-						for (UserBean userBean : userBeanList) {
+						for (UserBean userBean : userList) {
 						%>
 
 						<option value="<%=userBean.getUserId()%>">
@@ -73,7 +73,7 @@ if (message != null) {
 				<td><span style="color: red;">*</span>ステータス</td>
 				<td><select name="statusCode">
 						<%
-						for (StatusBean statusBean : statusBeanList) {
+						for (StatusBean statusBean : statusList) {
 						%>
 
 						<option value="<%= statusBean.getStatusCode()%>">
@@ -86,7 +86,7 @@ if (message != null) {
 			</tr>
 			<tr>
 				<td>メモ</td>
-				<td><input type="text" name="memo"></td>
+				<td><input type="text" name="memo" ></td>
 			</tr>
 		</table>
 		<input type="submit" value="編集実行"> 
