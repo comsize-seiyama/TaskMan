@@ -151,7 +151,7 @@ public class TaskDAO {
 				+ "user_id = ?, "
 				+ "status_code = ?, "
 				+ "memo = ? "
-				+ "WHERE task_id = 2";
+				+ "WHERE task_id = ?";
 		
 		int editResult = 0;
 		
@@ -160,15 +160,18 @@ public class TaskDAO {
 
 		        pstmt.setString(1, editTask.getTaskName());
 		        pstmt.setInt(2, editTask.getCategoryId());
-		        if (!(editTask.getLimitDate()==null)) {
+		        if (!(editTask.getLimitDate() == null)) {
+		        	//期限が入力されている場合
 					pstmt.setDate(3, java.sql.Date.valueOf(editTask.getLimitDate()));
 				}else {
+					//期限が入力されていない場合
 					pstmt.setDate(3,null);
 
 				}
 				pstmt.setString(4, editTask.getUserId());
 		        pstmt.setString(5, editTask.getStatusCode());
 		        pstmt.setString(6, editTask.getMemo());
+		        pstmt.setInt(7, editTask.getTaskId());
 
 		        editResult  = pstmt.executeUpdate();
 		    }
