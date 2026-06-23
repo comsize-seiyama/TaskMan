@@ -65,6 +65,7 @@ public class TaskDAO {
 				"SELECT " +
 				" t.task_id, " +
 				" t.task_name, " +
+				"t.user_id,"+
 				" c.category_name, " +
 				" t.limit_date, " +
 				" u.user_name, " +
@@ -93,7 +94,7 @@ public class TaskDAO {
 					
 					java.sql.Date sqlDate = rs.getDate("limit_date") ;
 		            taskBean.setLimitDate(sqlDate != null ? sqlDate.toLocalDate() : null);
-		            
+		            taskBean.setUserId(rs.getString("user_id"));
 					taskBean.setUserName(rs.getString("user_name"));
 					taskBean.setStatusName(rs.getString("status_name"));
 					taskBean.setMemo(rs.getString("memo"));
