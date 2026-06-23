@@ -98,7 +98,7 @@ public class TaskEditServlet extends HttpServlet {
 			return;
 		}
 
-		UserBean loginUserBean = (UserBean) session.getAttribute("userBean");
+		UserBean loginUserBean = (UserBean) session.getAttribute("loginUser");
 
 		if (!loginUserBean.getUserId().equals(taskBean.getUserId())) {
 			//タスク一覧表示画面を再表示し、
