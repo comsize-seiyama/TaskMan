@@ -45,7 +45,8 @@ public class TaskAddServlet extends HttpServlet {
 			throws ServletException, IOException {
 		//ログインチェック
 		HttpSession session = request.getSession();
-		if (session.getAttribute("userId") == null) {
+		UserBean loginUser =(UserBean)session.getAttribute("loginUser");
+		if(loginUser.getUserId() == null) {
 			response.sendRedirect("login.jsp");
 			return;
 		}
@@ -100,7 +101,8 @@ public class TaskAddServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		//ログインチェック
 		HttpSession session = request.getSession();
-		if (session.getAttribute("userId") == null) {
+		UserBean loginUser =(UserBean)session.getAttribute("loginUser");
+		if(loginUser.getUserId() == null) {
 			response.sendRedirect("login.jsp");
 			return;
 		}
