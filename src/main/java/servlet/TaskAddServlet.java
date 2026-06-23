@@ -46,7 +46,7 @@ public class TaskAddServlet extends HttpServlet {
 		//ログインチェック
 		HttpSession session = request.getSession();
 		UserBean loginUser =(UserBean)session.getAttribute("loginUser");
-		if(loginUser.getUserId() == null) {
+		if(loginUser == null ) {
 			response.sendRedirect("login.jsp");
 			return;
 		}
@@ -102,7 +102,7 @@ public class TaskAddServlet extends HttpServlet {
 		//ログインチェック
 		HttpSession session = request.getSession();
 		UserBean loginUser =(UserBean)session.getAttribute("loginUser");
-		if(loginUser.getUserId() == null) {
+		if(loginUser == null ) {
 			response.sendRedirect("login.jsp");
 			return;
 		}
@@ -156,7 +156,6 @@ public class TaskAddServlet extends HttpServlet {
 			forwardInputError(request, response, "カテゴリ名はプルダウンから選択してください。");
 			return;
 		}
-
 		
 		// バリデーションチェック③（期限）
 
@@ -221,7 +220,7 @@ public class TaskAddServlet extends HttpServlet {
 			return;
 		}
 
-		//バリデーションチェック⑥（５０文字超過チェック）
+		//バリデーションチェック⑥（１００文字超過チェック）
 		String memoParam = request.getParameter("memo");
 		if (memoParam == null ) {
 			memoParam = "";
@@ -289,12 +288,11 @@ public class TaskAddServlet extends HttpServlet {
 			request.getRequestDispatcher("task-add-success.jsp").forward(request, response);
 			return;
 		}//タスク登録失敗
-		if(insertResult == 0) {
+		else{
 			request.setAttribute("inputBean",inputBean);
 			request.getRequestDispatcher("task-add-failure.jsp").forward(request, response);
 			return;
 		}
-
 	}
 	/**
 	 * 入力エラーを設定してタスク登録画面へ戻す。

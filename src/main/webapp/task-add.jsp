@@ -30,15 +30,16 @@ if (errorMessage != null) {
 }
 %>
   <form action="task-add-servlet" method="POST">
-    <table>
+  <span style="color:red;">*</span>がついている欄は必須入力です。
+    <table border="1">
       <tr>
-        <th>タスク名</th>
+        <td><span style="color:red;">*</span>タスク名</td>
         <td>
-          <input type="text" name="taskName"required>
+          <input type="text" name="taskName" maxlength="50" required>
         </td>
       </tr>
       <tr>
-        <th>カテゴリ名</th>
+        <td><span style="color:red;">*</span>カテゴリ名</td>
         
         <td>
         	<select name ="categoryId">
@@ -51,11 +52,11 @@ if (errorMessage != null) {
         	</td>
       </tr>
       <tr>
-        <th>期限</th>
+        <td>期限</td>
         <td><input type="date" name="date" min="<%= LocalDate.now()%>" ></td>
       </tr>
       <tr>
-        <th>担当者</th>
+        <td><span style="color:red;">*</span>担当者</td>
         <td><select name ="userId">
         		<%
         		for(UserBean u: userList){
@@ -66,7 +67,7 @@ if (errorMessage != null) {
         	</td>
       </tr>
       <tr>
-        <th>ステータス</th>
+        <td><span style="color:red;">*</span>ステータス</td>
         <td>
         <select name ="statusCode">
         		<%
@@ -78,9 +79,9 @@ if (errorMessage != null) {
         </td>
       </tr>
       <tr>
-        <th>メモ</th>
+        <td>メモ</td>
         <td>
-          <input type="text" name="memo">
+          <input type="text" name="memo" maxlength="100">
         </td>
       </tr>
     </table>
