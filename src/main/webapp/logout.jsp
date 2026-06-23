@@ -8,14 +8,14 @@
 </head>
 <body>
 <%
-UserBean userBean =(UserBean)session.getAttribute("userBean");
+UserBean loginUser =(UserBean)session.getAttribute("loginUser");
 session.invalidate();
 %>
 <h1>ログアウト画面</h1>
 <hr>
-<h2>お疲れ様でした！<%=userBean.getUserName()%>さん！</h2>
+<h2>お疲れ様でした！<%=loginUser.getUserName()%>さん！</h2>
 
-<h1>ログアウトしました。</h1>
+<h2>ログアウトしました。</h2>
 <form action="login.jsp"method="POST">
 <input type="submit" value="ログイン画面へ">
 </form>
