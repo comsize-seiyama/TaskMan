@@ -52,7 +52,7 @@ if (errorMessage != null) {
       </tr>
       <tr>
         <th>期限</th>
-        <td><input type="date" name="date" min="<%= LocalDate.now()%>" required></td>
+        <td><input type="date" name="date" min="<%= LocalDate.now()%>" ></td>
       </tr>
       <tr>
         <th>担当者</th>
@@ -80,7 +80,7 @@ if (errorMessage != null) {
       <tr>
         <th>メモ</th>
         <td>
-          <input type="text" name="memo"required>
+          <input type="text" name="memo">
         </td>
       </tr>
     </table>

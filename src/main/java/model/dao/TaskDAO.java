@@ -118,7 +118,12 @@ public class TaskDAO {
 			
 			pstmt.setString(1,inputBean.getTaskName() );
 			pstmt.setInt(2,inputBean.getCategoryId());
-			pstmt.setDate(3,java.sql.Date.valueOf(inputBean.getLimitDate()));
+			//期限がnullだった場合NPEにならないように分岐
+			if (inputBean.getLimitDate() == null) {
+			    pstmt.setNull(3, java.sql.Types.DATE);//JDBCにDATE型のnullであることを明示
+			} else {
+			    pstmt.setDate(3,java.sql.Date.valueOf(inputBean.getLimitDate()));
+			}
 			pstmt.setString(4,inputBean.getUserId());
 			pstmt.setString(5,inputBean.getStatusCode());
 			pstmt.setString(6, inputBean.getMemo());
@@ -147,4 +152,6 @@ public class TaskDAO {
 	    }
 
 	    return count;
-}}
+	}
+}
+
