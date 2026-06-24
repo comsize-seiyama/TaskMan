@@ -14,21 +14,25 @@ public class TaskDAO {
 
 	public List<TaskBean> selectAll() throws ClassNotFoundException, SQLException {
 
-	    String sql =
-	            "SELECT " +
-	            " t.task_id, " +
-	            " t.task_name, " +
-	            " c.category_name, " +
-	            " t.limit_date, " +
-	            " t.user_id, " +
-	            " u.user_name, " +
-	            " s.status_name, " +
-	            " t.memo " +
-	            "FROM t_task t " +
-	            "INNER JOIN m_category c ON t.category_id = c.category_id " +
-	            "INNER JOIN m_user u ON t.user_id = u.user_id " +
-	            "INNER JOIN m_status s ON t.status_code = s.status_code " +
-	            "ORDER BY t.task_id";
+		String sql = """
+			    SELECT
+			        t.task_id,
+			        t.task_name,
+			        c.category_name,
+			        t.limit_date,
+			        t.user_id,
+			        u.user_name,
+			        s.status_name,
+			        t.memo
+			    FROM t_task t
+			    INNER JOIN m_category c
+			        ON t.category_id = c.category_id
+			    INNER JOIN m_user u
+			        ON t.user_id = u.user_id
+			    INNER JOIN m_status s
+			        ON t.status_code = s.status_code
+			    ORDER BY t.task_id
+			    """;
 
 	    List<TaskBean> taskBeanList = new ArrayList<TaskBean>();
 
@@ -61,21 +65,25 @@ public class TaskDAO {
 
 	public TaskBean selectById(int taskId) throws ClassNotFoundException, SQLException {
 
-		String sql =
-				"SELECT " +
-				" t.task_id, " +
-				" t.task_name, " +
-				"t.user_id,"+
-				" c.category_name, " +
-				" t.limit_date, " +
-				" u.user_name, " +
-				" s.status_name, " +
-				" t.memo " +
-				"FROM t_task t " +
-				"INNER JOIN m_category c ON t.category_id = c.category_id " +
-				"INNER JOIN m_user u ON t.user_id = u.user_id " +
-				"INNER JOIN m_status s ON t.status_code = s.status_code " +
-				"WHERE t.task_id = ?";
+		String sql = """
+			    SELECT
+			        t.task_id,
+			        t.task_name,
+			        t.user_id,
+			        c.category_name,
+			        t.limit_date,
+			        u.user_name,
+			        s.status_name,
+			        t.memo
+			    FROM t_task t
+			    INNER JOIN m_category c
+			        ON t.category_id = c.category_id
+			    INNER JOIN m_user u
+			        ON t.user_id = u.user_id
+			    INNER JOIN m_status s
+			        ON t.status_code = s.status_code
+			    WHERE t.task_id = ?
+			    """;
 
 		TaskBean taskBean = null;
 
@@ -108,9 +116,11 @@ public class TaskDAO {
 	
 	public int insert(TaskBean inputBean) throws ClassNotFoundException, SQLException {
 		
-		String sql ="INSERT INTO t_task " +
-	            "(task_name, category_id, limit_date, user_id, status_code, memo) " +
-	            "VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = """
+			    INSERT INTO t_task
+			        (task_name,category_id,limit_date,user_id,status_code,memo)
+			    VALUES(?, ?, ?, ?, ?, ?)
+			    """;
 		
 		int insertResult = 0;
 		
@@ -145,14 +155,17 @@ public class TaskDAO {
 	 * 
 	 */
 	public int edit(TaskBean editTask) throws SQLException, ClassNotFoundException {
-		String sql = "UPDATE t_task "
-				+ "SET task_name = ?, "
-				+ "category_id = ?, "
-				+ "limit_date = ?, "
-				+ "user_id = ?, "
-				+ "status_code = ?, "
-				+ "memo = ? "
-				+ "WHERE task_id = ?";
+		String sql = """
+			    UPDATE t_task
+			    SET
+			        task_name = ?,
+			        category_id = ?,
+			        limit_date = ?,
+			        user_id = ?,
+			        status_code = ?,
+			        memo = ?
+			    WHERE task_id = ?
+			    """;
 		
 		int editResult = 0;
 		
@@ -182,9 +195,11 @@ public class TaskDAO {
 	public int deleteTask(int taskId)
 	        throws ClassNotFoundException, SQLException {
 
-	    String sql =
-	            "DELETE FROM t_task " +
-	            "WHERE task_id = ?";
+	    String sql ="""
+	            DELETE FROM t_task 
+	            WHERE task_id = ?
+	            
+	    		""";
 
 	    int count = 0;
 

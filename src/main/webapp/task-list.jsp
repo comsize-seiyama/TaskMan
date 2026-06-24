@@ -71,7 +71,7 @@ if (message != null) {
                 
                 if(loginUserId.equals(taskbeanlist.getUserId())){
                 %>
-                <input type="radio"name="taskId"
+                <input type="radio" name="taskId"
                            value="<%=taskbeanlist.getTaskId()%>">
 
                 <%
@@ -92,21 +92,7 @@ if (message != null) {
 
             <td>
                  <%--期限項目のnullチェック --%>
-                <%
-                if(taskbeanlist.getLimitDate() == null){
-                %>
-
-                    <%= "" %>
-
-                <%
-                }else{
-                %>
-
-                    <%=taskbeanlist.getLimitDate()%>
-
-                <%
-                }
-                %>
+                <%= taskbeanlist.getLimitDate() == null ? "" : taskbeanlist.getLimitDate() %>
 
             </td>
 
@@ -116,22 +102,8 @@ if (message != null) {
 
             <td>
                 <%--メモ項目のnullチェック --%>
-                <%
-                if(taskbeanlist.getMemo() == null){
-                %>
-
-                    <%= "" %>
-
-                <%
-                }else{
-                %>
-
-                    <%=taskbeanlist.getMemo()%>
-
-                <%
-                }
-                %>
-
+                
+                <%= taskbeanlist.getMemo() == null ? "" : taskbeanlist.getMemo() %>
             </td>
 
         </tr>
