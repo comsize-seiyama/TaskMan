@@ -91,6 +91,7 @@ public class TaskAddServlet extends HttpServlet {
 		UserBean loginUser =(UserBean)session.getAttribute("loginUser");
 		if(loginUser == null ) {
 			response.sendRedirect("login.jsp");
+			return;
 		}
 
 		//不正なアクセスによってdoPostが呼び出されたときにリストがnullになるのでNPE回避用
@@ -111,10 +112,12 @@ public class TaskAddServlet extends HttpServlet {
 		String taskNameParam = request.getParameter("taskName");
 		if (taskNameParam == null || taskNameParam.isBlank()) {
 			forwardInputError(request, response, "タスク名を入力してください");
+			return;
 		}
 		//５０文字超過チェック
 		if (taskNameParam.length() > 50) {
 			forwardInputError(request, response, "タスク名は５０文字以内で入力してください。");
+			return;
 		}
 
 		//バリデーションチェック②（カテゴリ名）
@@ -125,6 +128,7 @@ public class TaskAddServlet extends HttpServlet {
 			categoryIdParam = Integer.parseInt(request.getParameter("categoryId"));
 		} catch (NumberFormatException e) {//nullチェック
 			forwardInputError(request, response, "カテゴリ名はプルダウンから選択してください。");
+			return;
 		}
 		boolean categoryIdCheck = false;
 		//プルダウン用のリスト内のカテゴリID以外の入力を検知する。
@@ -136,6 +140,7 @@ public class TaskAddServlet extends HttpServlet {
 		}
 		if (!categoryIdCheck) {
 			forwardInputError(request, response, "カテゴリ名はプルダウンから選択してください。");
+			return;
 		}
 		
 		// バリデーションチェック③（期限）
@@ -153,11 +158,13 @@ public class TaskAddServlet extends HttpServlet {
 		        limitDate = LocalDate.parse(dateParam);
 		    } catch (DateTimeParseException e) {
 		        forwardInputError(request,response,"日付はカレンダーから指定してください。");
+		        return;
 		    }
 
 		    // 過去日チェック
 		    if (limitDate.isBefore(LocalDate.now())) {
 		        forwardInputError(request,response,"期限に過去日付は指定できません。");
+		        return;
 		    }
 		}
 
@@ -165,6 +172,7 @@ public class TaskAddServlet extends HttpServlet {
 		String userIdParam = request.getParameter("userId");
 		if (userIdParam == null || userIdParam.isBlank()) {
 			forwardInputError(request, response, "担当者名はプルダウンから選択してください。");
+			return;
 		}
 		boolean userIdCheck = false;
 		//プルダウン用のリスト内のユーザID以外の入力を検知する。
@@ -176,12 +184,14 @@ public class TaskAddServlet extends HttpServlet {
 		}
 		if (!userIdCheck) {
 			forwardInputError(request, response, "担当者名はプルダウンから選択してください。");
+			return;
 		}
 
 		//バリデーションチェック⑤（ステータスチェック）
 		String statusCodeParam = request.getParameter("statusCode");
 		if (statusCodeParam == null || statusCodeParam.isBlank()) {
 			forwardInputError(request, response, "ステータスはプルダウンから選択してください。");
+			return;
 		}
 		boolean statusCodeCheck = false;
 		//プルダウン用のリスト内のカテゴリID以外の入力を検知する。
@@ -193,6 +203,7 @@ public class TaskAddServlet extends HttpServlet {
 		}
 		if (!statusCodeCheck) {
 			forwardInputError(request, response, "ステータスはプルダウンから選択してください。");
+			return;
 		}
 
 		//バリデーションチェック⑥（１００文字超過チェック）
@@ -202,6 +213,7 @@ public class TaskAddServlet extends HttpServlet {
 		}
 		if (memoParam.length() > 100) {
 			forwardInputError(request, response, "メモは１００文字以内で入力してください。");
+			return;
 		}
 
 		//バリデーションチェックを通過したらBeanに詰める
