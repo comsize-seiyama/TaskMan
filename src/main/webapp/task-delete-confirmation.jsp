@@ -25,7 +25,7 @@
     <tr>
         <th>期限</th>
          <%--期限項目のnullチェック --%>
-         <%= taskBean.getLimitDate() == null ? "" : taskBean.getLimitDate() %>
+       <td>  <%= taskBean.getLimitDate() == null ? "" : taskBean.getLimitDate() %></td>
     </tr>
 
     <tr>
