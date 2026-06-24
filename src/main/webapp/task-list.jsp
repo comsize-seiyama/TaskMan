@@ -60,7 +60,7 @@ if (message != null) {
         List<TaskBean> taskBeanList =
             (List<TaskBean>)session.getAttribute("taskBeanList");
 
-        for(TaskBean taskbeanlist : taskBeanList){
+        for(TaskBean taskBean : taskBeanList){
         %>
 
         <tr>
@@ -69,10 +69,10 @@ if (message != null) {
 
                 <%
                 
-                if(loginUserId.equals(taskbeanlist.getUserId())){
+                if(loginUserId.equals(taskBean.getUserId())){
                 %>
                 <input type="radio" name="taskId"
-                           value="<%=taskbeanlist.getTaskId()%>">
+                           value="<%=taskBean.getTaskId()%>">
 
                 <%
                 }else{
@@ -86,24 +86,22 @@ if (message != null) {
 
             </td>
 
-            <td><%=taskbeanlist.getTaskName()%></td>
+            <td><%=taskBean.getTaskName()%></td>
 
-            <td><%=taskbeanlist.getCategoryName()%></td>
+            <td><%=taskBean.getCategoryName()%></td>
 
             <td>
                  <%--期限項目のnullチェック --%>
-                <%= taskbeanlist.getLimitDate() == null ? "" : taskbeanlist.getLimitDate() %>
+                <%= taskBean.getLimitDate() == null ? "" : taskBean.getLimitDate() %>
 
             </td>
 
-            <td><%=taskbeanlist.getUserName()%></td>
+            <td><%=taskBean.getUserName()%></td>
 
-            <td><%=taskbeanlist.getStatusName()%></td>
+            <td><%=taskBean.getStatusName()%></td>
 
             <td>
-                <%--メモ項目のnullチェック --%>
-                
-                <%= taskbeanlist.getMemo() == null ? "" : taskbeanlist.getMemo() %>
+                <%=taskBean.getMemo() %>
             </td>
 
         </tr>
