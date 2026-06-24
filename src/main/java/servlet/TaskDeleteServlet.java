@@ -122,7 +122,7 @@ public class TaskDeleteServlet extends HttpServlet {
 		if (taskIdStr == null || taskIdStr.isEmpty()) {
 			request.setAttribute("message", "タスクを選択してください。");
 
-			RequestDispatcher rd = request.getRequestDispatcher("task-list.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("task-delete-failure.jsp");
 			rd.forward(request, response);
 			return;
 		}
@@ -140,7 +140,7 @@ public class TaskDeleteServlet extends HttpServlet {
 			if (deleteTask == null) {
 				request.setAttribute("message", "選択されたタスクは存在しません。");
 
-				RequestDispatcher rd = request.getRequestDispatcher("task-list.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("task-delete-failure.jsp");
 				rd.forward(request, response);
 				return;
 			}
@@ -148,7 +148,7 @@ public class TaskDeleteServlet extends HttpServlet {
 			if (!loginUserId.equals(deleteTask.getUserId())) {
 				request.setAttribute("message", "自分のタスクのみ削除できます。");
 
-				RequestDispatcher rd = request.getRequestDispatcher("task-list.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("task-delete-failure.jsp");
 				rd.forward(request, response);
 				return;
 			}
