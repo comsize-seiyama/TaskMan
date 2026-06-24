@@ -53,7 +53,7 @@ public class TaskDeleteServlet extends HttpServlet {
 		    request.setAttribute("message", "タスクを選択してください。");
 
 		    RequestDispatcher rd =
-		            request.getRequestDispatcher("task-list-servlet");
+		            request.getRequestDispatcher("task-list.jsp");
 		    rd.forward(request, response);
 		    return;
 		}
@@ -73,7 +73,7 @@ public class TaskDeleteServlet extends HttpServlet {
 		        request.setAttribute("message", "選択されたタスクは存在しません。");
 
 		        RequestDispatcher rd =
-		                request.getRequestDispatcher("task-list-servlet");
+		                request.getRequestDispatcher("task-list.jsp");
 		        rd.forward(request, response);
 		        return;
 		    } System.out.println("loginUserId = " + loginUserId);
@@ -84,7 +84,7 @@ public class TaskDeleteServlet extends HttpServlet {
 		        request.setAttribute("message", "自分のタスクのみ削除できます。");
 
 		        RequestDispatcher rd =
-		                request.getRequestDispatcher("task-list-servlet");
+		                request.getRequestDispatcher("task-list.jsp");
 		        rd.forward(request, response);
 		        return;
 		    }

@@ -18,51 +18,54 @@ import model.entity.TaskBean;
 
 @WebServlet("/task-list-servlet")
 public class TaskListServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public TaskListServlet() {
-        super();
-    }
+	public TaskListServlet() {
+		super();
+	}
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-        request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 
-        HttpSession session = request.getSession();
+		HttpSession session = request.getSession();
 
-        // ログインチェック
-        if (session.getAttribute("userId") == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
+		// ログインチェック
+		if (session.getAttribute("userId") == null) {
+			response.sendRedirect("login.jsp");
+			return;
+		}
 
-        List<TaskBean> taskBeanList = new ArrayList<>();
+		List<TaskBean> taskBeanList = new ArrayList<>();
 
-        try {
-        	//TaskDAOをインスタンス化
-            TaskDAO taskDao = new TaskDAO();
-            //タスク情報をリストに代入
-            taskBeanList = taskDao.selectAll();
-            //タスクが存在するかチェック
-            if (taskBeanList == null || taskBeanList.isEmpty()) {
-                request.setAttribute("message", "登録されているタスクはありません。");
-            }
-           //DBエラーチェック
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            request.setAttribute("message", "システムエラーが発生しました。");
-        }
-          //一覧表示に使用するリストをセッションにセット
-        session.setAttribute("taskBeanList", taskBeanList);
-          //一覧表示画面へフォワード
-        RequestDispatcher rd = request.getRequestDispatcher("task-list.jsp");
-        rd.forward(request, response);
-    }
+		try {
+			//TaskDAOをインスタンス化
+			TaskDAO taskDao = new TaskDAO();
+			//タスク情報をリストに代入
+			taskBeanList = taskDao.selectAll();
+			//タスクが存在するかチェック
+			if (taskBeanList == null || taskBeanList.isEmpty()) {
+				request.setAttribute("message", "登録されているタスクはありません。");
+			}
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+			//一覧表示に使用するリストをセッションにセット
+			session.setAttribute("taskBeanList", taskBeanList);
+			//一覧表示画面へフォワード
+			RequestDispatcher rd = request.getRequestDispatcher("task-list.jsp");
+			rd.forward(request, response);
+			//DBエラーチェック
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+			request.setAttribute("message",  "システムエラーが発生しました。しばらくしてから再度お試し下さい。");
+			RequestDispatcher rd = request.getRequestDispatcher("menu.jsp");
+			rd.forward(request, response);
+		}
+	}
 
-        doGet(request, response);
-    }
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		doGet(request, response);
+	}
 }

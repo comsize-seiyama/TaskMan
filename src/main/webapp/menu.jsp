@@ -13,6 +13,17 @@ String userName = (String) session.getAttribute("userName");
 </head>
 <body>
 	<h1>メニュー画面</h1>
+	<%-- エラーメッセージを表示 --%>
+<%
+String message = (String) request.getAttribute("message");
+
+if (message != null) {
+%>
+    <p style="color:red;"><%= message %></p>
+<%
+}
+%>
+	
 	<hr>
 	ようこそ！
 
