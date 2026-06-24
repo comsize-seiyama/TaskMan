@@ -35,7 +35,8 @@ if (message != null) {
 
     <tr>
         <th>期限</th>
-        <td><%=taskBean.getLimitDate()%></td>
+         <%--期限項目のnullチェック --%>
+         <%= taskBean.getLimitDate() == null ? "" : taskBean.getLimitDate() %>
     </tr>
 
     <tr>

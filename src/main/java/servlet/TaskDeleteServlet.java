@@ -164,14 +164,14 @@ public class TaskDeleteServlet extends HttpServlet {
 				rd.forward(request, response);
 
 				return;
-			}
+			}else {
 
 			request.setAttribute("message",
 					"削除対象が存在しません。");
 
 			RequestDispatcher rd = request.getRequestDispatcher("task-delete-failure.jsp");
 			rd.forward(request, response);
-
+			}
 		} catch (SQLException | ClassNotFoundException e) {
 
 			e.printStackTrace();

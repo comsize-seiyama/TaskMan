@@ -32,7 +32,8 @@ TaskBean deleteTask =
     </tr>
     <tr>
         <th>期限</th>
-        <td><%= deleteTask.getLimitDate() %></td>
+        <%--期限項目のnullチェック --%>
+         <%= deleteTask.getLimitDate() == null ? "" : deleteTask.getLimitDate() %>
     </tr>
     <tr>
         <th>担当者情報</th>
