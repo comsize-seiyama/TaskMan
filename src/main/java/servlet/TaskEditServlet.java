@@ -57,9 +57,8 @@ public class TaskEditServlet extends HttpServlet {
 			//例外フローE2のケース
 			//タスク一覧表示画面に再遷移し
 			//エラーメッセージ「編集するタスクを選択してください。」を表示
-			forwardInputError(request, response, "編集するタスクを選択してください。");
-			request.getRequestDispatcher("task-list.jsp").forward(request, response);
-		}
+			request.setAttribute("message", "編集するタスクを選択してください。");
+			request.getRequestDispatcher("task-list.jsp").forward(request, response);					}
 
 		//各DAOを取得
 		TaskDAO taskDAO = new TaskDAO();
@@ -83,16 +82,17 @@ public class TaskEditServlet extends HttpServlet {
 			e.printStackTrace();
 			//例外フローA5のケース
 			//タスク一覧表示画面に再遷移し
-			//エラーメッセージ「データベース情報の取得に失敗しました。」を表示
-			forwardInputError(request, response, "データベース情報の取得に失敗しました。");
+			//エラーメッセージ「データベース情報の取得に失敗しました。」を表示する。
+			request.setAttribute("message", "データベース情報の取得に失敗しました。");
 			request.getRequestDispatcher("task-list.jsp").forward(request, response);
-			
+			return;
 		}
 		//代替フローA6のケース
 		if (beforeTaskBean == null) {
 			//タスク一覧表示画面に再遷移、エラーメッセージ「選択されたタスクに編集権限がないか、存在していません」を表示
-			forwardInputError(request, response, "選択されたタスクに編集権限がないか、存在していません");
+			request.setAttribute("message", "選択されたタスクに編集権限がないか、存在していません");
 			request.getRequestDispatcher("task-list.jsp").forward(request, response);
+			return;
 			
 		}
 
@@ -101,9 +101,9 @@ public class TaskEditServlet extends HttpServlet {
 		if (!loginUserBean.getUserId().equals(beforeTaskBean.getUserId())) {
 			//タスク一覧表示画面を再表示し、
 			//エラーメッセージ「選択されたタスクに編集権限がないか、存在していません」を表示する。
-			forwardInputError(request, response, "選択されたタスクに編集権限がないか、存在していません");
+			request.setAttribute("message", "選択されたタスクに編集権限がないか、存在していません");
 			request.getRequestDispatcher("task-list.jsp").forward(request, response);
-			
+			return;
 		}
 		//タスク情報、編集前の担当者IDをセッションスコープに詰める
 		session.setAttribute("beforeTaskBean", beforeTaskBean);
@@ -148,12 +148,12 @@ public class TaskEditServlet extends HttpServlet {
 		String taskNameParam = request.getParameter("taskName");
 		if (taskNameParam == null || taskNameParam.isBlank()) {
 			forwardInputError(request, response, "タスク名を入力してください");
-			
+			return;
 		}
 		//５０文字超過チェック
 		if (taskNameParam.length() > 50) {
 			forwardInputError(request, response, "タスク名は５０文字以内で入力してください。");
-			
+			return;
 		}
 
 		//バリデーションチェック②（カテゴリ名）
@@ -163,7 +163,7 @@ public class TaskEditServlet extends HttpServlet {
 			categoryIdParam = Integer.parseInt(request.getParameter("categoryId"));
 		} catch (NumberFormatException e) {
 			forwardInputError(request, response, "カテゴリ名はプルダウンから選択してください。");
-			
+			return;
 		}
 		boolean categoryIdCheck = false;
 		//プルダウン用のリスト内のカテゴリID以外の入力を検知する。
@@ -193,13 +193,13 @@ public class TaskEditServlet extends HttpServlet {
 				limitDate = LocalDate.parse(dateParam);
 			} catch (DateTimeParseException e) {
 				forwardInputError(request, response, "日付はカレンダーから指定してください。");
-				
+				return;
 			}
 
 			// 過去日チェック
 			if (limitDate.isBefore(LocalDate.now())) {
 				forwardInputError(request, response, "期限に過去日付は指定できません。");
-				
+				return;
 			}
 		}
 
@@ -226,7 +226,7 @@ public class TaskEditServlet extends HttpServlet {
 		String statusCodeParam = request.getParameter("statusCode");
 		if (statusCodeParam == null || statusCodeParam.isBlank()) {
 			forwardInputError(request, response, "ステータスはプルダウンから選択してください。");
-			
+			return;
 		}
 		boolean statusCodeCheck = false;
 		//プルダウン用のリスト内のカテゴリID以外の入力を検知する。
@@ -238,7 +238,7 @@ public class TaskEditServlet extends HttpServlet {
 		}
 		if (!statusCodeCheck) {
 			forwardInputError(request, response, "ステータスはプルダウンから選択してください。");
-			
+			return;
 		}
 
 		//バリデーションチェック⑥（１００文字超過チェック）
@@ -248,7 +248,7 @@ public class TaskEditServlet extends HttpServlet {
 		}
 		if (memoParam.length() > 100) {
 			forwardInputError(request, response, "メモは１００文字以内で入力してください。");
-			
+			return;
 		}
 		
 		//編集後のタスク情報を新しくインスタンス化したBeanに詰める
@@ -258,7 +258,6 @@ public class TaskEditServlet extends HttpServlet {
 		editTaskBean.setCategoryId(categoryIdParam);
 		editTaskBean.setLimitDate(limitDate);
 		editTaskBean.setUserId(userIdParam);
-		editTaskBean.setStatusCode(statusCodeParam);
 		editTaskBean.setStatusCode(statusCodeParam);
 		editTaskBean.setMemo(memoParam);
 		//jspに表示する用のデータ取得 取得したcategoryIdと一致するcategoryNameをBeanに詰める
@@ -299,6 +298,7 @@ public class TaskEditServlet extends HttpServlet {
 				//失敗画面へ遷移する
 				request.setAttribute("editTaskBean", editTaskBean);
 				request.getRequestDispatcher("task-edit-failure.jsp").forward(request, response);
+				return;
 			}
 		//TaskDAOにタスク情報を渡してDB情報を更新する
 		TaskDAO taskDAO = new TaskDAO();
@@ -311,6 +311,7 @@ public class TaskEditServlet extends HttpServlet {
 			//失敗画面へ遷移する
 			request.setAttribute("editTaskBean", editTaskBean);
 			request.getRequestDispatcher("task-edit-failure.jsp").forward(request, response);
+			return;
 		}
 		if (editResult == 1) {
 			request.setAttribute("editTaskBean", editTaskBean);
@@ -320,7 +321,7 @@ public class TaskEditServlet extends HttpServlet {
 
 	}
 
-	//入力エラーを設定してタスク登録画面へ戻すメソッド
+	//入力エラーを設定してタスク編集画面へ戻すメソッド
 	private void forwardInputError(
 			HttpServletRequest request,
 			HttpServletResponse response,
@@ -328,8 +329,7 @@ public class TaskEditServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		request.setAttribute("message", message);
-		request.getRequestDispatcher("task-list.jsp")
-				.forward(request, response);
+		request.getRequestDispatcher("task-edit-form.jsp").forward(request, response);
 	}
 
 }

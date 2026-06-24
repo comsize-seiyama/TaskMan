@@ -11,7 +11,7 @@
 </head>
 <body>
 	<%
-	TaskBean taskBean = (TaskBean)session.getAttribute("taskBean");
+	TaskBean beforeTaskBean = (TaskBean)session.getAttribute("beforeTaskBean");
 	List<CategoryBean> categoryList = (List<CategoryBean>)session.getAttribute("categoryList");
 	List<UserBean> userList = (List<UserBean>)session.getAttribute("userList");
 	List<StatusBean> statusList = (List<StatusBean>)session.getAttribute("statusList");
@@ -33,7 +33,7 @@ if (message != null) {
 		<table border="1">
 			<tr>
 				<td><span style="color: red;">*</span>タスク名</td>
-				<td><input type="text" name="taskName" required></td>
+				<td><input type="text" name="taskName" value="<%=beforeTaskBean.getTaskName()%>" required></td>
 			</tr>
 			<tr>
 				<td><span style="color: red;">*</span>カテゴリ名</td>
@@ -42,7 +42,16 @@ if (message != null) {
 						for (CategoryBean categoryBean : categoryList) {
 						%>
 
-						<option value="<%=categoryBean.getCategoryId()%>">
+						<option value="<%=categoryBean.getCategoryId()%>"
+						<%
+						//編集前のカテゴリ情報とカテゴリマスタの情報を照らし合わせて
+						//一致したコードに対応する分類名がデフォルトで入力される
+						if(categoryBean.getCategoryName().equals(beforeTaskBean.getCategoryName())){
+						%>
+							selected 
+						<%
+						}
+						%>>
 							<%=categoryBean.getCategoryName()%>
 						</option>
 						<%
@@ -52,7 +61,18 @@ if (message != null) {
 			</tr>
 			<tr>
 				<td>期限</td>
-				<td><input type="date" name="date" min="<%= LocalDate.now()%>"></td>
+				<td>
+				
+				<input type="date" name="date" min="<%= LocalDate.now()%>"
+				<%
+				if(!(beforeTaskBean.getLimitDate() == null)){
+				%>
+				value="<%=beforeTaskBean.getLimitDate()%>"
+				<%
+				}
+				%>
+				>
+				</td>
 			</tr>
 			<tr>
 				<td><span style="color: red;">*</span>担当者</td>
@@ -61,7 +81,16 @@ if (message != null) {
 						for (UserBean userBean : userList) {
 						%>
 
-						<option value="<%=userBean.getUserId()%>">
+						<option value="<%=userBean.getUserId()%>"
+						<%
+						//編集前のユーザ情報とユーザマスタの情報を照らし合わせて
+						//一致したコードに対応する分類名がデフォルトで入力される
+						if(userBean.getUserName().equals(beforeTaskBean.getUserName())){
+						%>
+							selected 
+						<%
+						}
+						%>>
 							<%=userBean.getUserName()%>
 						</option>
 						<%
@@ -76,8 +105,17 @@ if (message != null) {
 						for (StatusBean statusBean : statusList) {
 						%>
 
-						<option value="<%= statusBean.getStatusCode()%>">
-							<%= statusBean.getStatusName()%>
+						<option value="<%= statusBean.getStatusCode()%>"
+						<%
+						//編集前のステータス情報とステータスマスタの情報を照らし合わせて
+						//一致したコードに対応する分類名がデフォルトで入力される
+						if(statusBean.getStatusName().equals(beforeTaskBean.getStatusName())){
+						%>
+							selected 
+						<%
+						}
+						%>>
+							<%=statusBean.getStatusName()%>
 						</option>
 						<%
 						}
@@ -86,7 +124,7 @@ if (message != null) {
 			</tr>
 			<tr>
 				<td>メモ</td>
-				<td><input type="text" name="memo" ></td>
+				<td><input type="text" name="memo" value="<%=beforeTaskBean.getMemo()%>" ></td>
 			</tr>
 		</table>
 		<input type="submit" value="編集実行"> 
