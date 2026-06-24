@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>タスク編集フォーム</title>
+<title>タスク編集画面</title>
 </head>
 <body>
 	<%
@@ -16,7 +16,7 @@
 	List<UserBean> userList = (List<UserBean>)session.getAttribute("userList");
 	List<StatusBean> statusList = (List<StatusBean>)session.getAttribute("statusList");
 	%>
-	<h1>タスク編集フォーム画面</h1>
+	<h1>タスク編集画面</h1>
 	<hr>
 	<span style="color: red;">*</span>がついている欄は必須入力です
 	<%-- エラーメッセージを表示 --%>
