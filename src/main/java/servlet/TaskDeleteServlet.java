@@ -90,7 +90,7 @@ public class TaskDeleteServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("task-delete-confirmation.jsp");
 			rd.forward(request, response);
 
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException | ClassNotFoundException | NumberFormatException e) {
 			e.printStackTrace();
 
 			request.setAttribute("message",
@@ -172,7 +172,7 @@ public class TaskDeleteServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("task-delete-failure.jsp");
 			rd.forward(request, response);
 			}
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException | ClassNotFoundException |NumberFormatException e) {
 
 			e.printStackTrace();
 

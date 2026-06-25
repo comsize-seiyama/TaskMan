@@ -49,7 +49,7 @@ public class TaskListServlet extends HttpServlet {
                 request.setAttribute("message", "登録されているタスクはありません。");
             }
            //DBエラーチェック
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException |NumberFormatException e) {
             e.printStackTrace();
             request.setAttribute("message", "システムエラーが発生しました。");
         }
