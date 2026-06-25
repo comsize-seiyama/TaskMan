@@ -8,7 +8,7 @@
 </head>
 <body>
 	<%
-	TaskBean editTaskBean = (TaskBean)session.getAttribute("taskBean");
+	TaskBean editTaskBean = (TaskBean)request.getAttribute("editTaskBean");
 	%>
 	<h1>タスク編集失敗画面</h1>
 	<hr>

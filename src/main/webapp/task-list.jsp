@@ -14,7 +14,6 @@
 <h1>タスク一覧表示</h1>
 
 <%
-
 String loginUserId =(String)session.getAttribute("userId");
 %>
 <%-- エラーメッセージを表示 --%>
