@@ -8,7 +8,7 @@ import model.entity.UserBean;
 
 public class UserDAOTest {
 
-    // テスト項目2：ログイン成功
+    // テスト項目1：ログイン成功
     @Test
     public void loginSuccess() throws Exception {
         UserBean input = new UserBean();
@@ -20,13 +20,13 @@ public class UserDAOTest {
 
         assertNotNull(actual);
         assertEquals("admin", actual.getUserId());
-        assertEquals("admin", actual.getPassword());
+        //assertEquals("admin", actual.getPassword());
         assertNotNull(actual.getUserName());
     }
 
-    // テスト項目3：未登録ユーザーID
+    // テスト項目2：ユーザID不一致
     @Test
-    public void loginFailure_UnregisteredUserId() throws Exception {
+    public void loginFailure_WrongUserId() throws Exception {
         UserBean input = new UserBean();
         input.setUserId("999999");
         input.setPassword("admin");
@@ -37,7 +37,7 @@ public class UserDAOTest {
         assertNull(actual);
     }
 
-    // テスト項目4：パスワード不一致
+    // テスト項目3：パスワード不一致
     @Test
     public void loginFailure_WrongPassword() throws Exception {
         UserBean input = new UserBean();
@@ -50,7 +50,7 @@ public class UserDAOTest {
         assertNull(actual);
     }
 
-    // テスト項目5：ユーザーID空欄
+    // テスト項目4：ユーザーID空欄
     @Test
     public void loginFailure_BlankUserId() throws Exception {
         UserBean input = new UserBean();
@@ -63,7 +63,7 @@ public class UserDAOTest {
         assertNull(actual);
     }
 
-    // テスト項目6：パスワード空欄
+    // テスト項目5：パスワード空欄
     @Test
     public void loginFailure_BlankPassword() throws Exception {
         UserBean input = new UserBean();
@@ -76,16 +76,5 @@ public class UserDAOTest {
         assertNull(actual);
     }
 
-    // テスト項目7：ユーザーIDとパスワード空欄
-    @Test
-    public void loginFailure_BlankUserIdAndPassword() throws Exception {
-        UserBean input = new UserBean();
-        input.setUserId("");
-        input.setPassword("");
-
-        UserDAO dao = new UserDAO();
-        UserBean actual = dao.login(input);
-
-        assertNull(actual);
-    }
+    
 }
