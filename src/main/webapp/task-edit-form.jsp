@@ -11,6 +11,7 @@
 </head>
 <body>
 	<%
+	//セッションスコープに詰めたデータを取得
 	TaskBean beforeTaskBean = (TaskBean)session.getAttribute("beforeTaskBean");
 	List<CategoryBean> categoryList = (List<CategoryBean>)session.getAttribute("categoryList");
 	List<UserBean> userList = (List<UserBean>)session.getAttribute("userList");
@@ -23,12 +24,16 @@
 <%
 String message = (String) request.getAttribute("message");
 
+//エラーメッセージを表示しない場合のnullチェック
 if (message != null) {
 %>
     <p style="color:red;"><%= message %></p>
 <%
 }
 %>
+
+	<%-- 編集前のタスク情報が入力欄にあらかじめ入力されています --%>
+	<%-- nullまたは空文字の場合は何も入力されません --%>
 	<form action="task-edit-servlet" method="POST">
 		<table border="1">
 			<tr>
