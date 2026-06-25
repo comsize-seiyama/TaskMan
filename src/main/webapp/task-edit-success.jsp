@@ -24,6 +24,8 @@
 		</tr>
 		<tr>
 			<td>期限</td>
+				<%--editTaskBean.getLimitDate()の戻り値がnullの場合、""(空文字)に変換し表示します --%>
+				<%--そうでない場合はeditTaskBean.getLimitDate()の戻り値を表示します --%>
 			<td><%=editTaskBean.getLimitDate()== null ? "" : editTaskBean.getLimitDate()%></td>
 		</tr>
 		<tr>

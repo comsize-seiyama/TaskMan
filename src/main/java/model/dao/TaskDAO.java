@@ -179,8 +179,7 @@ public class TaskDAO {
 					pstmt.setDate(3, java.sql.Date.valueOf(editTask.getLimitDate()));
 				}else {
 					//期限が入力されていない場合
-					pstmt.setDate(3,null);
-
+					pstmt.setNull(3, java.sql.Types.DATE);//JDBCにDATE型のnullであることを明示pstmt.setDate(3,null);
 				}
 				pstmt.setString(4, editTask.getUserId());
 		        pstmt.setString(5, editTask.getStatusCode());
