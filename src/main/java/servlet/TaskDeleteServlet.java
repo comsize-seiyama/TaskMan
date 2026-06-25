@@ -89,8 +89,8 @@ public class TaskDeleteServlet extends HttpServlet {
 			// 削除確認画面へ
 			RequestDispatcher rd = request.getRequestDispatcher("task-delete-confirmation.jsp");
 			rd.forward(request, response);
-
-		} catch (SQLException | ClassNotFoundException e) {
+			//DB,nullエラーチェック
+		} catch (SQLException | ClassNotFoundException | NumberFormatException e) {
 			e.printStackTrace();
 
 			request.setAttribute("message",
@@ -127,11 +127,10 @@ public class TaskDeleteServlet extends HttpServlet {
 			return;
 		}
 
-		int taskId = Integer.parseInt(taskIdStr);
-
 		TaskDAO taskDao = new TaskDAO();
 
 		try {
+			int taskId = Integer.parseInt(taskIdStr);
 
 			// 削除前にタスク情報取得
 			TaskBean deleteTask = taskDao.selectById(taskId);
@@ -164,15 +163,16 @@ public class TaskDeleteServlet extends HttpServlet {
 				rd.forward(request, response);
 
 				return;
-			}else {
+			} else {
 
-			request.setAttribute("message",
-					"削除対象が存在しません。");
+				request.setAttribute("message",
+						"削除対象が存在しません。");
 
-			RequestDispatcher rd = request.getRequestDispatcher("task-delete-failure.jsp");
-			rd.forward(request, response);
+				RequestDispatcher rd = request.getRequestDispatcher("task-delete-failure.jsp");
+				rd.forward(request, response);
 			}
-		} catch (SQLException | ClassNotFoundException e) {
+			//DB,nullエラーチェック
+		} catch (SQLException | ClassNotFoundException | NumberFormatException e) {
 
 			e.printStackTrace();
 

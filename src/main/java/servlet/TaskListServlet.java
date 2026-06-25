@@ -48,8 +48,8 @@ public class TaskListServlet extends HttpServlet {
             if (taskBeanList == null || taskBeanList.isEmpty()) {
                 request.setAttribute("message", "登録されているタスクはありません。");
             }
-           //DBエラーチェック
-        } catch (SQLException | ClassNotFoundException e) {
+           //DB,nullエラーチェック
+        } catch (SQLException | ClassNotFoundException | NumberFormatException e) {
             e.printStackTrace();
             request.setAttribute("message", "システムエラーが発生しました。");
         }
