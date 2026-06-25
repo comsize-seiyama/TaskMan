@@ -75,7 +75,7 @@ public class TaskEditServlet extends HttpServlet {
 		List<StatusBean> statusList = null;
 
 			try {
-				//タスク一覧画面からパラメータ取得したタスクIDを使用し編集前のタスクを取得
+				//タスク一覧画面からパラメータ取得したタスクIDを使用し編集対象タスクを取得
 				beforeTaskBean = taskDAO.selectById(taskId);
 				//タスク編集画面のプルダウン表示に必要な以下のマスタ情報を取得
 				userList = userDAO.getUserList();
@@ -107,7 +107,7 @@ public class TaskEditServlet extends HttpServlet {
 				return;
 			}
 			
-		//編集前のタスク情報、プルダウンリスト表示用のデータをセッションスコープに詰める
+		//編集対象タスク情報、プルダウンリスト表示用のデータをセッションスコープに詰める
 		session.setAttribute("beforeTaskBean", beforeTaskBean);
 		session.setAttribute("userList", userList);
 		session.setAttribute("categoryList", categoryList);
@@ -132,7 +132,7 @@ public class TaskEditServlet extends HttpServlet {
 		}
 		request.setCharacterEncoding("UTF-8");
 		
-		//編集前のタスク情報を取得（タスクIDを取得するために使用する）
+		//編集対象タスク情報を取得（タスクIDを取得するために使用する）
 		TaskBean beforeTaskBean =(TaskBean)session.getAttribute("beforeTaskBean");
 		
 			//カテゴリ名、担当者、ステータスが一致しているかチェック用のListを取得
@@ -141,7 +141,8 @@ public class TaskEditServlet extends HttpServlet {
 				List<UserBean> userList = (List<UserBean>) session.getAttribute("userList");
 
 				List<StatusBean> statusList = (List<StatusBean>) session.getAttribute("statusList");
-
+			
+			//doPostに直接画面遷移された際にログイン画面へ遷移
 				if (categoryList == null || userList == null || statusList == null) {
 					response.sendRedirect("login.jsp");
 					
