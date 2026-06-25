@@ -127,11 +127,12 @@ public class TaskDeleteServlet extends HttpServlet {
 			return;
 		}
 
-		int taskId = Integer.parseInt(taskIdStr);
-
-		TaskDAO taskDao = new TaskDAO();
+		
 
 		try {
+			int taskId = Integer.parseInt(taskIdStr);
+
+			TaskDAO taskDao = new TaskDAO();
 
 			// 削除前にタスク情報取得
 			TaskBean deleteTask = taskDao.selectById(taskId);
