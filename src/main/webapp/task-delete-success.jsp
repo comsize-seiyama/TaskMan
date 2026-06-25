@@ -51,9 +51,7 @@ TaskBean deleteTask =
 
 <br>
 
-<form action="task-list-servlet" method="get">
-    <input type="submit" value="一覧表示へ">
-</form>
+
 
 <form action="menu.jsp" method="get">
     <input type="submit" value="メニュー画面へ">
