@@ -19,9 +19,12 @@ if (message != null) {
 <%
 }
 %>
-
+<% TaskBean taskBean = (TaskBean)request.getAttribute("taskBean");%>
+<%
+if(taskBean !=null){ 
+%>
     <p>次のタスクの削除に失敗しました。</p>
-    <% TaskBean taskBean = (TaskBean)request.getAttribute("taskBean");%>
+    
 
 <table border="1">
  <tr>
@@ -54,7 +57,9 @@ if (message != null) {
         <td><%=taskBean.getMemo()%></td>
     </tr>
 </table>
-
+<%
+}
+%>
 <br>
 
     <form action="menu.jsp" method="get">
