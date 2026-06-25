@@ -292,16 +292,35 @@ public class TaskEditServlet extends HttpServlet {
 			 * A7.基本フロー8において、編集対象タスクが存在しない、
 			 * または編集対象タスクの更新前担当者とログインユーザが一致しない場合
 			 */
-			UserBean loginUser = (UserBean)session.getAttribute("loginUser");
-			String loginUserId = loginUser.getUserId();
-			if(!loginUserId.equals(beforeTaskBean.getUserId())) {
+			TaskDAO taskDAO = new TaskDAO();
+			TaskBean latestTaskBean;
+			try {
+				//タスク情報をデータベースから再度取得する
+				latestTaskBean = taskDAO.selectById(beforeTaskBean.getTaskId());
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+					//失敗画面へ遷移する
+					request.setAttribute("editTaskBean", editTaskBean);
+					request.getRequestDispatcher("task-edit-failure.jsp").forward(request, response);
+					return;
+			}
+			//ログインユーザ情報を取得する
+			UserBean loginUserBean = (UserBean)session.getAttribute("loginUser");
+			
+			/*
+			 * ログインユーザのユーザIDと
+			 * データベースから再度取得したタスクの担当者IDが一致しているか確認
+			 */
+			if(!loginUserBean.getUserId().equals(latestTaskBean.getUserId())) {
 				//失敗画面へ遷移する
 				request.setAttribute("editTaskBean", editTaskBean);
+				request.setAttribute("message", "選択されたタスクに編集権限がないか、存在していません");
 				request.getRequestDispatcher("task-edit-failure.jsp").forward(request, response);
 				return;
+			
 			}
 		//TaskDAOにタスク情報を渡してDB情報を更新する
-		TaskDAO taskDAO = new TaskDAO();
 		int editResult = 0;
 		try {
 			editResult = taskDAO.edit(editTaskBean);
