@@ -3,6 +3,7 @@ package model.dao;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -88,5 +89,179 @@ class TaskDAOTest {
 
         assertEquals(1, nullresult);
 
+	}
+	
+	@Test
+	void edit_正常更新_編集項目全入力(){
+		TaskDAO dao = new TaskDAO();
+		
+		TaskBean bean = new TaskBean();
+		
+		bean.setTaskId(33);
+		bean.setTaskName("単体テスト");
+		bean.setCategoryId(1);
+		bean.setLimitDate(LocalDate.parse("2026-07-04"));
+		bean.setUserId("admin");
+		bean.setStatusCode("02");
+		bean.setMemo("現在単体テストを行っております。");
+		
+		int result = 0;
+		try {
+			result = dao.edit(bean);
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO: handle exception
+		}
+		
+		assertEquals(1, result);
+	}
+	
+	@Test
+	void edit_正常更新_limitDateのみnull() {
+		TaskDAO dao = new TaskDAO();
+		
+		TaskBean bean = new TaskBean();
+		
+		bean.setTaskId(33);
+		bean.setTaskName("単体テスト");
+		bean.setCategoryId(1);
+		bean.setLimitDate(null);//← null
+		bean.setUserId("admin");
+		bean.setStatusCode("02");
+		bean.setMemo("現在単体テストを行っております。");
+		
+		int result = 0;
+		try {
+			result = dao.edit(bean);
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO: handle exception
+		}
+		
+		assertEquals(1, result);
+	}
+	
+	@Test
+	void edit_正常更新_memoのみnull() {
+		TaskDAO dao = new TaskDAO();
+		
+		TaskBean bean = new TaskBean();
+		
+		bean.setTaskId(33);
+		bean.setTaskName("単体テスト");
+		bean.setCategoryId(1);
+		bean.setLimitDate(LocalDate.parse("2026-07-04"));
+		bean.setUserId("admin");
+		bean.setStatusCode("02");
+		bean.setMemo(null);
+		
+		int result = 0;
+		try {
+			result = dao.edit(bean);
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO: handle exception
+		}		
+		assertEquals(1, result);
+	}
+	
+	@Test
+	void edit_正常更新_limitDateとmemoがnull() {
+		TaskDAO dao = new TaskDAO();
+		
+		TaskBean bean = new TaskBean();
+		
+		bean.setTaskId(33);
+		bean.setTaskName("単体テスト");
+		bean.setCategoryId(1);
+		bean.setLimitDate(null);
+		bean.setUserId("admin");
+		bean.setStatusCode("02");
+		bean.setMemo(null);
+		
+		int result = 0;
+		try {
+			result = dao.edit(bean);
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO: handle exception
+		}		
+		assertEquals(1, result);
+	}
+	
+	@Test
+	void edit_失敗_存在しないtaskId()  {
+		TaskDAO dao = new TaskDAO();
+		
+		TaskBean bean = new TaskBean();
+		
+		bean.setTaskId(9999);
+		bean.setTaskName("単体テスト");
+		bean.setCategoryId(1);
+		bean.setLimitDate(null);
+		bean.setUserId("admin");
+		bean.setStatusCode("02");
+		bean.setMemo(null);
+		
+		int result = -1;
+		try {
+			result = dao.edit(bean);
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO: handle exception
+		}		
+		assertEquals(0, result);
+	}
+	
+	@Test
+	void edit_失敗_入力必須項目全てがnull() {
+		TaskDAO dao = new TaskDAO();
+		
+		TaskBean bean = new TaskBean();
+		
+		bean.setTaskId(33);
+		bean.setTaskName(null);
+		bean.setCategoryId(1);
+		bean.setLimitDate(null);
+		bean.setUserId(null);
+		bean.setStatusCode(null);
+		bean.setMemo(null);
+		
+		assertThrows(SQLException.class,()->{
+			int result = dao.edit(bean);
+		});
+	}
+	
+	@Test
+	void edit_失敗_taskNameのみnull() {
+		TaskDAO dao = new TaskDAO();
+		
+		TaskBean bean = new TaskBean();
+		
+		bean.setTaskId(33);
+		bean.setTaskName(null);
+		bean.setCategoryId(1);
+		bean.setLimitDate(null);
+		bean.setUserId("admin");
+		bean.setStatusCode("02");
+		bean.setMemo(null);
+		
+		assertThrows(SQLIntegrityConstraintViolationException.class,()->{
+			int result = dao.edit(bean);
+		});
+	}
+	
+	@Test
+	void edit_失敗_userIdのみnull() {
+		TaskDAO dao = new TaskDAO();
+		
+		TaskBean bean = new TaskBean();
+		
+		bean.setTaskId(33);
+		bean.setTaskName("単体テスト");
+		bean.setCategoryId(1);
+		bean.setLimitDate(null);
+		bean.setUserId(null);
+		bean.setStatusCode("02");
+		bean.setMemo(null);
+		
+		assertThrows(SQLIntegrityConstraintViolationException.class,()->{
+			int result = dao.edit(bean);
+		});
 	}
 }
