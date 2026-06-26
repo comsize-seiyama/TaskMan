@@ -28,16 +28,38 @@ class TaskDAOTest {
 	    
 	}
 	@Test
-	void selectById()  throws ClassNotFoundException, SQLException {
-		TaskDAO dao = new TaskDAO();
-		 int taskId =22;
-		 TaskBean taskBean = dao.selectById(taskId);
-		 
-		 assertNotNull(taskBean);
-		 
-		 assertEquals(22, taskBean.getTaskId());
+	void testSelectById() throws Exception {
+
+	    TaskDAO dao = new TaskDAO();
+
+	    TaskBean taskBean = dao.selectById(33);
+
+	    assertNotNull(taskBean);
+
+	    assertEquals(33, taskBean.getTaskId());
+	    assertEquals("テスト", taskBean.getTaskName());
+	    assertEquals("新商品A:開発プロジェクト", taskBean.getCategoryName());
+	    assertEquals(LocalDate.of(2026, 12, 31), taskBean.getLimitDate());
+	    assertEquals("1", taskBean.getUserId());
+	    assertEquals("test", taskBean.getUserName());
+	    assertEquals("未着手", taskBean.getStatusName());
+	    assertEquals("テストデータ", taskBean.getMemo());
+	    
+	    
+	    taskBean = dao.selectById(9999);
+
+	    assertNull(taskBean);
+	    
+	    taskBean = dao.selectById(45);
+
+	    assertNotNull(taskBean);
+	    assertNull(taskBean.getLimitDate());
+	    
+	    
+	    
+	}
 		
-}
+
 	@Test
 	void insert() throws ClassNotFoundException, SQLException {
 		TaskDAO dao = new TaskDAO();
@@ -53,6 +75,18 @@ class TaskDAOTest {
         int result = dao.insert(taskBean);
 
         assertEquals(1, result);
+        
+        
+        taskBean.setTaskName("期限なしテスト");
+        taskBean.setCategoryId(1);
+        taskBean.setLimitDate(null);   // ← null
+        taskBean.setUserId("1");
+        taskBean.setStatusCode("01");
+        taskBean.setMemo("テスト");
+        
+        int nullresult = dao.insert(taskBean);
+
+        assertEquals(1, nullresult);
 
 	}
 }
