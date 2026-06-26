@@ -181,7 +181,7 @@ public class TaskEditServlet extends HttpServlet {
 			}
 			if (!categoryIdCheck) {
 				forwardInputError(request, response, "カテゴリ名はプルダウンから選択してください。");
-				
+				return;
 			}
 	
 			// バリデーションチェック③（期限）
@@ -227,7 +227,7 @@ public class TaskEditServlet extends HttpServlet {
 			}
 			if (!userIdCheck) {
 				forwardInputError(request, response, "担当者名はプルダウンから選択してください。");
-				
+				return;
 			}
 	
 			//バリデーションチェック⑤（ステータスチェック）
