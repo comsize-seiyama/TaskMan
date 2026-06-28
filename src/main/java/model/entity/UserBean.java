@@ -2,6 +2,7 @@ package model.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Objects;
 /*＊
  *  ログインユーザー情報を保持するBeanクラスです。
  *  
@@ -16,6 +17,26 @@ public class UserBean implements Serializable {
 
     public UserBean() {
         super();
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        // 同一参照なら即 true
+        if (this == obj) {
+            return true;
+        }
+
+        // null または型が違うなら false
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        // 比較対象をキャストして取り出す
+        UserBean other = (UserBean) obj;
+
+        // フィールドごとに比較（Objects.equalsメソッドでNPEが起きない）
+        return Objects.equals(this.userId, other.userId)
+                && Objects.equals(this.userName, other.userName);
     }
 
     public String getUserId() {
