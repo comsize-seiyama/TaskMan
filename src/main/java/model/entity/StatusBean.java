@@ -2,6 +2,7 @@ package model.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 
 public class StatusBean implements Serializable{
@@ -12,6 +13,26 @@ public class StatusBean implements Serializable{
 	    
 	    public StatusBean() {
 	    	
+	    }
+	    
+	    @Override
+	    public boolean equals(Object obj) {
+	        // 同一参照なら即 true
+	        if (this == obj) {
+	            return true;
+	        }
+
+	        // null または型が違うなら false
+	        if (obj == null || getClass() != obj.getClass()) {
+	            return false;
+	        }
+
+	        // 比較対象をキャストして取り出す
+	        StatusBean other = (StatusBean) obj;
+
+	        // フィールドごとに比較（Objects.equalsメソッドでNPEが起きない）
+	        return Objects.equals(this.statusCode, other.statusCode)
+	                && Objects.equals(this.statusName, other.statusName);
 	    }
 
 	    public String getStatusCode() {
