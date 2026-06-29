@@ -61,7 +61,7 @@ class TaskDAOTest {
 		
 
 	@Test
-	void insert() throws ClassNotFoundException, SQLException {
+	void testInsert() throws ClassNotFoundException, SQLException {
 		TaskDAO dao = new TaskDAO();
 
         TaskBean taskBean = new TaskBean();
@@ -88,5 +88,12 @@ class TaskDAOTest {
 
         assertEquals(1, nullresult);
 
+	}
+	@Test 
+	void testDelete() throws ClassNotFoundException, SQLException {
+		TaskDAO dao = new TaskDAO();
+		 int result = dao.deleteTask(33);
+
+		    assertEquals(1, result);
 	}
 }
