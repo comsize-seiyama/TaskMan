@@ -38,7 +38,7 @@ if (message != null) {
 		<table border="1">
 			<tr>
 				<td><span style="color: red;">*</span>タスク名</td>
-				<td><input type="text" name="taskName" value="<%=beforeTaskBean.getTaskName()%>" required></td>
+				<td><input type="text" name="taskName" value="<%=beforeTaskBean.getTaskName()%>"maxlength="50" required></td>
 			</tr>
 			<tr>
 				<td><span style="color: red;">*</span>カテゴリ名</td>
@@ -129,7 +129,7 @@ if (message != null) {
 			</tr>
 			<tr>
 				<td>メモ</td>
-				<td><input type="text" name="memo" value="<%=beforeTaskBean.getMemo()%>" ></td>
+				<td><input type="text" name="memo" value="<%=beforeTaskBean.getMemo()%>"maxlength="100" ></td>
 			</tr>
 		</table>
 		<input type="submit" value="編集実行"> 
